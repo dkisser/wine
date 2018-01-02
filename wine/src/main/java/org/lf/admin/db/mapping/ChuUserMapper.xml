@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.lf.admin.db.dao.ChuUserMapper" >
+  <resultMap id="BaseResultMap" type="org.lf.admin.db.pojo.ChuUser" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UNAME" property="uname" jdbcType="VARCHAR" />
+    <result column="UPW" property="upw" jdbcType="VARCHAR" />
+    <result column="ROLE" property="role" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="BM_ID" property="bmId" jdbcType="INTEGER" />
+    <result column="RYLX" property="rylx" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="query_selective">
+  	<if test="id != null" >
+        AND ID = #{id,jdbcType=INTEGER}
+    </if>
+  	<if test="uname != null" >
+        AND UNAME = #{uname,jdbcType=VARCHAR}
+    </if>
+  	<if test="upw != null" >
+        AND UPW = #{upw,jdbcType=VARCHAR}
+    </if>
+  	<if test="role != null" >
+       AND  ROLE = #{role,jdbcType=INTEGER}
+    </if>
+  	<if test="name != null" >
+       AND  NAME = #{name,jdbcType=VARCHAR}
+    </if>
+  	<if test="phone != null" >
+        AND PHONE = #{phone,jdbcType=VARCHAR}
+    </if>
+  	<if test="bmId != null" >
+        AND BM_ID = #{bmId,jdbcType=INTEGER}
+    </if>
+  	<if test="rylx != null" >
+       AND  RYLX = #{rylx,jdbcType=INTEGER}
+    </if>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UNAME, UPW, ROLE, NAME, PHONE, BM_ID, RYLX
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from chu_user
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from chu_user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lf.admin.db.pojo.ChuUser" >
+    insert into chu_user (ID, UNAME, UPW, 
+      ROLE, NAME, PHONE, 
+      BM_ID, RYLX)
+    values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{upw,jdbcType=VARCHAR}, 
+      #{role,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{bmId,jdbcType=INTEGER}, #{rylx,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lf.admin.db.pojo.ChuUser" >
+    insert into chu_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="uname != null" >
+        UNAME,
+      </if>
+      <if test="upw != null" >
+        UPW,
+      </if>
+      <if test="role != null" >
+        ROLE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="bmId != null" >
+        BM_ID,
+      </if>
+      <if test="rylx != null" >
+        RYLX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upw != null" >
+        #{upw,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="bmId != null" >
+        #{bmId,jdbcType=INTEGER},
+      </if>
+      <if test="rylx != null" >
+        #{rylx,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lf.admin.db.pojo.ChuUser" >
+    update chu_user
+    <set >
+      <if test="uname != null" >
+        UNAME = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upw != null" >
+        UPW = #{upw,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        ROLE = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="bmId != null" >
+        BM_ID = #{bmId,jdbcType=INTEGER},
+      </if>
+      <if test="rylx != null" >
+        RYLX = #{rylx,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lf.admin.db.pojo.ChuUser" >
+    update chu_user
+    set UNAME = #{uname,jdbcType=VARCHAR},
+      UPW = #{upw,jdbcType=VARCHAR},
+      ROLE = #{role,jdbcType=INTEGER},
+      NAME = #{name,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      BM_ID = #{bmId,jdbcType=INTEGER},
+      RYLX = #{rylx,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="select" parameterType="org.lf.admin.db.pojo.ChuUser"
+  resultMap="BaseResultMap">
+  	select * from chu_user
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectList" parameterType="org.lf.admin.db.pojo.ChuUser"
+  resultMap="BaseResultMap">
+  	select * from chu_user
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+</mapper>

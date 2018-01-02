@@ -1,0 +1,71 @@
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	background-color:#424242;
+}
+/*类选择器*/
+.container{  
+	width:600px;
+	height:500px;
+	position:relative;/*设置相对定位*/
+	margin:0 auto;/*设置被选中元素的外边距:水平居中对齐*/
+	margin-top:10%;
+	background-color:rgb(255,255,255);
+	border-radius:10px 10px 0 0;
+	overflow: hidden;
+	box-shadow:0 0 30px #000;
+}
+/*组合选择器*/
+.title,.main,.messageBox,.copy{
+	width:100%;
+}
+.title{
+	height:10%;
+	background-color: #ff6700;
+	display:flex;
+	align-items:center;
+	justify-content: center;
+	color:#fff; /*设置文本颜色:白色*/
+	font-size:18px;
+}
+.copy{
+	height:5%;
+	background-color: #ff6700;
+	text-align:center;/*设置文本内容居中对齐*/
+	font-style:italic;/*设置字体样式为斜体*/
+}
+.main{
+	height:75%;
+	background-color:rgba(0,0,0,0.3);
+	position: relative;
+}
+.messageBox{
+	height:10%;
+	overflow: hidden;/*超出当前区域的内容隐藏*/
+	position: relative;
+}
+
+.txt{
+	width:80%;
+	border:0;
+	height:100%;
+	outline:none;/*去除浏览器自带的元素交互效果*/
+	font-size:18px;
+	padding-left:10px;/*设置内边距*/
+	box-sizing: border-box;
+}
+.btn{
+	width:20%;
+	height:100%;
+	font-size:18px;
+	outline:none;/*去除浏览器自带的交互元素的效果*/
+	border:0;
+	background-color:#4795df ;
+	color:#fff;
+	cursor:pointer;/*设置鼠标指针样式*/
+}
+.btn:hover{
+	background-color:#327bc1 ;
+}
