@@ -8,6 +8,23 @@
     <result column="DATE" property="date" jdbcType="DATE" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="query_selective">
+  	  <if test="id != null" >
+        AND ID=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="mc != null" >
+        AND MC LIKE CONCAT('%',#{mc,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="price != null" >
+        AND PRICE <![CDATA[   >=  ]]> #{price,jdbcType=INTEGER}
+      </if>
+      <if test="date != null" >
+        AND DATE <![CDATA[   >=  ]]> #{date,jdbcType=DATE}
+      </if>
+      <if test="remark != null" >
+        AND REMARK=#{remark,jdbcType=VARCHAR}
+      </if>
+  </sql>
   <sql id="Base_Column_List" >
     ID, MC, PRICE, DATE, REMARK
   </sql>
@@ -90,4 +107,22 @@
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="select" parameterType="org.lf.admin.db.pojo.Wine"
+  resultMap="BaseResultMap">
+  	select * from wine
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectList" parameterType="org.lf.admin.db.pojo.Wine"
+  resultMap="BaseResultMap">
+  	select * from wine
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectWineByMc" parameterType="java.lang.String"
+  resultMap="BaseResultMap">
+  	select * from wine where mc = #{mc,jdbcType=VARCHAR}
+  </select>
 </mapper>

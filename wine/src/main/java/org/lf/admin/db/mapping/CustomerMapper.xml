@@ -8,6 +8,23 @@
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
     <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="query_selective">
+  	<if test="id != null" >
+      AND ID=#{id,jdbcType=INTEGER}
+    </if>
+    <if test="uname != null" >
+      AND UNAME=#{uname,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null" >
+      AND NAME LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="phone != null" >
+      AND PHONE LIKE CONCAT('%',#{phone,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="address != null" >
+      AND ADDRESS=#{address,jdbcType=VARCHAR}
+    </if>
+  </sql>
   <sql id="Base_Column_List" >
     ID, UNAME, NAME, PHONE, ADDRESS
   </sql>
@@ -90,4 +107,22 @@
       ADDRESS = #{address,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="select" parameterType="org.lf.admin.db.pojo.Customer"
+  resultMap = "BaseResultMap">
+  	select * from customer
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectList" parameterType="org.lf.admin.db.pojo.Customer"
+  resultMap = "BaseResultMap">
+  	select * from customer
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectCustomerByUname" parameterType="java.lang.String"
+  resultMap = "BaseResultMap">
+  	select * from customer where uname = #{uname,jdbcType=VARCHAR}
+  </select>
 </mapper>
