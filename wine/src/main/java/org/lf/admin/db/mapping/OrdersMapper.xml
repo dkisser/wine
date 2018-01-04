@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lf.admin.db.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="org.lf.admin.db.pojo.Orders">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="TXM" jdbcType="VARCHAR" property="txm" />
+    <result column="WINE_ID" jdbcType="INTEGER" property="wineId" />
+    <result column="SHY" jdbcType="VARCHAR" property="shy" />
+    <result column="YWY" jdbcType="VARCHAR" property="ywy" />
+    <result column="SHZ" jdbcType="VARCHAR" property="shz" />
+    <result column="KDR" jdbcType="VARCHAR" property="kdr" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TXM, WINE_ID, SHY, YWY, SHZ, KDR, DATE, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lf.admin.db.pojo.Orders">
+    insert into orders (ID, TXM, WINE_ID, 
+      SHY, YWY, SHZ, KDR, 
+      DATE, REMARK)
+    values (#{id,jdbcType=INTEGER}, #{txm,jdbcType=VARCHAR}, #{wineId,jdbcType=INTEGER}, 
+      #{shy,jdbcType=VARCHAR}, #{ywy,jdbcType=VARCHAR}, #{shz,jdbcType=VARCHAR}, #{kdr,jdbcType=VARCHAR}, 
+      #{date,jdbcType=DATE}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lf.admin.db.pojo.Orders">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="txm != null">
+        TXM,
+      </if>
+      <if test="wineId != null">
+        WINE_ID,
+      </if>
+      <if test="shy != null">
+        SHY,
+      </if>
+      <if test="ywy != null">
+        YWY,
+      </if>
+      <if test="shz != null">
+        SHZ,
+      </if>
+      <if test="kdr != null">
+        KDR,
+      </if>
+      <if test="date != null">
+        DATE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="txm != null">
+        #{txm,jdbcType=VARCHAR},
+      </if>
+      <if test="wineId != null">
+        #{wineId,jdbcType=INTEGER},
+      </if>
+      <if test="shy != null">
+        #{shy,jdbcType=VARCHAR},
+      </if>
+      <if test="ywy != null">
+        #{ywy,jdbcType=VARCHAR},
+      </if>
+      <if test="shz != null">
+        #{shz,jdbcType=VARCHAR},
+      </if>
+      <if test="kdr != null">
+        #{kdr,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lf.admin.db.pojo.Orders">
+    update orders
+    <set>
+      <if test="txm != null">
+        TXM = #{txm,jdbcType=VARCHAR},
+      </if>
+      <if test="wineId != null">
+        WINE_ID = #{wineId,jdbcType=INTEGER},
+      </if>
+      <if test="shy != null">
+        SHY = #{shy,jdbcType=VARCHAR},
+      </if>
+      <if test="ywy != null">
+        YWY = #{ywy,jdbcType=VARCHAR},
+      </if>
+      <if test="shz != null">
+        SHZ = #{shz,jdbcType=VARCHAR},
+      </if>
+      <if test="kdr != null">
+        KDR = #{kdr,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        DATE = #{date,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lf.admin.db.pojo.Orders">
+    update orders
+    set TXM = #{txm,jdbcType=VARCHAR},
+      WINE_ID = #{wineId,jdbcType=INTEGER},
+      SHY = #{shy,jdbcType=VARCHAR},
+      YWY = #{ywy,jdbcType=VARCHAR},
+      SHZ = #{shz,jdbcType=VARCHAR},
+      KDR = #{kdr,jdbcType=VARCHAR},
+      DATE = #{date,jdbcType=DATE},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

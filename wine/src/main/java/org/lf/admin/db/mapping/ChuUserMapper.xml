@@ -11,6 +11,32 @@
     <result column="BM_ID" property="bmId" jdbcType="INTEGER" />
     <result column="RYLX" property="rylx" jdbcType="INTEGER" />
   </resultMap>
+  <sql id="query_selectiveFuzzy">
+  	<if test="id != null" >
+        AND ID = #{id,jdbcType=INTEGER}
+    </if>
+  	<if test="uname != null" >
+        AND UNAME = #{uname,jdbcType=VARCHAR}
+    </if>
+  	<if test="upw != null" >
+        AND UPW = #{upw,jdbcType=VARCHAR}
+    </if>
+  	<if test="role != null" >
+       AND  ROLE = #{role,jdbcType=INTEGER}
+    </if>
+  	<if test="name != null" >
+       AND  NAME LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+  	<if test="phone != null" >
+        AND PHONE LIKE CONCAT('%',#{phone,jdbcType=VARCHAR},'%')
+    </if>
+  	<if test="bmId != null" >
+        AND BM_ID = #{bmId,jdbcType=INTEGER}
+    </if>
+  	<if test="rylx != null" >
+       AND  RYLX = #{rylx,jdbcType=INTEGER}
+    </if>
+  </sql>
   <sql id="query_selective">
   	<if test="id != null" >
         AND ID = #{id,jdbcType=INTEGER}
@@ -25,10 +51,10 @@
        AND  ROLE = #{role,jdbcType=INTEGER}
     </if>
   	<if test="name != null" >
-       AND  NAME = #{name,jdbcType=VARCHAR}
+       AND  NAME =#{name,jdbcType=VARCHAR}
     </if>
   	<if test="phone != null" >
-        AND PHONE = #{phone,jdbcType=VARCHAR}
+        AND PHONE=#{phone,jdbcType=VARCHAR}
     </if>
   	<if test="bmId != null" >
         AND BM_ID = #{bmId,jdbcType=INTEGER}
@@ -37,6 +63,7 @@
        AND  RYLX = #{rylx,jdbcType=INTEGER}
     </if>
   </sql>
+
   <sql id="Base_Column_List" >
     ID, UNAME, UPW, ROLE, NAME, PHONE, BM_ID, RYLX
   </sql>
@@ -164,5 +191,12 @@
   		<where>
   			<include refid="query_selective"></include>
   		</where>
+  </select>
+  <select id="selectListFuzzy" parameterType="org.lf.admin.db.pojo.ChuUser"
+  resultMap="BaseResultMap">
+	  select * from chu_user
+	  		<where>
+	  			<include refid="query_selectiveFuzzy"></include>
+	  		</where>
   </select>
 </mapper>

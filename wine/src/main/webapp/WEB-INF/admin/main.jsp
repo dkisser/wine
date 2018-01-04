@@ -7,16 +7,11 @@
 <%String baseUrl = AdminProperties.SERVER_URL; %>
 <link rel="stylesheet" type="text/css" href="<%=baseUrl %>/js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="<%=baseUrl %>/js/easyui/themes/icon.css">
-<link href="<%=baseUrl %>/js/layui/css/layui.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<%=baseUrl %>/js/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="<%=baseUrl %>/js/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<%=baseUrl %>/js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=baseUrl %>/js/swh_admin.js"></script>
-<script type="text/javascript" src="<%=baseUrl %>/js/highchart/highcharts-zh_CN.js"></script>
-<script type="text/javascript" src="<%=baseUrl %>/js/highchart/highcharts.js"></script>
-<script type="text/javascript" src="<%=baseUrl %>/js/highchart/exporting.js"></script>
 <script src="<%=baseUrl %>/dist/sweetalert.min.js"></script> 
-<script type="text/javascript" src="<%=baseUrl %>/js/layui/layui.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=baseUrl %>/dist/sweetalert.css">
 <style type="text/css">
 *{margin:0;padding: 0}
@@ -143,16 +138,7 @@ $.ajax ({
 	
 	
 });
-Highcharts.setOptions({
-    lang: {
-          printChart:"打印图表",
-          downloadJPEG: "下载JPEG 图片" , 
-          downloadPDF: "下载PDF文档"  ,
-          downloadPNG: "下载PNG 图片"  ,
-          downloadSVG: "下载SVG 矢量图" , 
-          exportButtonTitle: "导出图片" 
-    }
-});
+
 </script>                      
 </body>
 </html>

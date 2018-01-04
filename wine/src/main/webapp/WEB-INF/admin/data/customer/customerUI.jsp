@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
 <script type="text/javascript">
 
-	Customer = {
+	var Customer = {
 			
 		add:function (){
 			var Customer_newAdd = $("<div id='Customer_newAdd'></div>");

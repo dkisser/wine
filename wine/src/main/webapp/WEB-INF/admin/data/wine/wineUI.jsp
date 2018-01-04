@@ -40,7 +40,7 @@ function FormatDate(date) {
 	return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 }
 
-	Wine = {
+	var Wine = {
 			
 		add:function (){
 			var Wine_newAdd = $("<div id='Wine_newAdd'></div>");

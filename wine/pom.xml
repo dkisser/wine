@@ -171,6 +171,13 @@
 			<version>1.10</version>
         </dependency>
         
+        <!-- pingyin4j -->
+        <dependency> 
+        	<groupId>org.lf</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+        </dependency>
+        
         <!-- druid数据库连接池  start -->
 	      <dependency>
 			<groupId>com.alibaba</groupId>

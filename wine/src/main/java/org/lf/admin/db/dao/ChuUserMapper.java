@@ -1,5 +1,7 @@
 package org.lf.admin.db.dao;
 
+import java.util.List;
+
 import org.lf.admin.db.pojo.ChuUser;
 
 public interface ChuUserMapper extends BaseMapper<ChuUser>{
@@ -14,4 +16,6 @@ public interface ChuUserMapper extends BaseMapper<ChuUser>{
     int updateByPrimaryKeySelective(ChuUser record);
 
     int updateByPrimaryKey(ChuUser record);
+    
+    List<ChuUser> selectListFuzzy (ChuUser user);
 }

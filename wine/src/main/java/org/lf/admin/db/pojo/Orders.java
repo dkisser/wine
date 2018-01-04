@@ -2,12 +2,10 @@ package org.lf.admin.db.pojo;
 
 import java.util.Date;
 
-public class Order {
+public class Orders {
     private Integer id;
 
     private String txm;
-
-    private String orderId;
 
     private Integer wineId;
 
@@ -15,7 +13,7 @@ public class Order {
 
     private String ywy;
 
-    private String shr;
+    private String shz;
 
     private String kdr;
 
@@ -37,14 +35,6 @@ public class Order {
 
     public void setTxm(String txm) {
         this.txm = txm == null ? null : txm.trim();
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     public Integer getWineId() {
@@ -71,12 +61,12 @@ public class Order {
         this.ywy = ywy == null ? null : ywy.trim();
     }
 
-    public String getShr() {
-        return shr;
+    public String getShz() {
+        return shz;
     }
 
-    public void setShr(String shr) {
-        this.shr = shr == null ? null : shr.trim();
+    public void setShz(String shz) {
+        this.shz = shz == null ? null : shz.trim();
     }
 
     public String getKdr() {
