@@ -1,6 +1,5 @@
 package org.lf.admin.action.order;
 
-import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -115,9 +114,6 @@ public class ImportController extends BaseController{
 			if (!importService.importWine(order, file)){
 				return "上传失败，请重试";
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "上传失败，请重试";
 		} catch (OperException e) {
 			e.printStackTrace();
 			return e.getMessage();

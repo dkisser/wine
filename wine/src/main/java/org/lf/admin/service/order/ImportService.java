@@ -73,7 +73,7 @@ public class ImportService {
 	 * @throws IOException 
 	 * @throws OperException 
 	 */
-	public Boolean importWine (Orders Orders,MultipartFile file) throws IOException, OperException{
+	public Boolean importWine (Orders Orders,MultipartFile file) throws OperException{
 		String fileName = file.getOriginalFilename();
 		String suffixName = fileName.split("\\.")[1];
 		if (suffixName.equals("txt")){
@@ -112,10 +112,11 @@ public class ImportService {
 	 * @param Orders
 	 * @param file
 	 * @return
+	 * @throws OperException 
 	 * @throws IOException 
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	private Boolean importWineByTxt (Orders Orders,MultipartFile file) throws IOException{
+	private Boolean importWineByTxt (Orders Orders,MultipartFile file) throws OperException{
 		List<Orders> oList=getAddWineListByTxt(Orders, file);
 		Boolean result = false;
 		for (Orders o:oList){
@@ -129,28 +130,45 @@ public class ImportService {
 	 * @param Orders
 	 * @param file
 	 * @return
+	 * @throws OperException 
 	 * @throws IOException 
 	 */
-	private List<Orders> getAddWineListByTxt (Orders orders,MultipartFile file) throws IOException{
-		InputStream in = file.getInputStream();
+	private List<Orders> getAddWineListByTxt (Orders orders,MultipartFile file) throws OperException{
+		InputStream in = null;
+		try {
+			in = file.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new OperException(读取Excel文件异常);
+		}
 		//控制该数组大小（条形码长度+2），从而实现一行一行的读.
 		List<Orders> result = new ArrayList<Orders>();
 		byte[] array = new byte[11];
 		int i=-1;
-		while ((i=in.read(array))!=-1){
-			String txm = new String(array);
-			Orders newOrders = new Orders();
-			newOrders.setDate(orders.getDate());
-			newOrders.setKdr(orders.getKdr());
-			newOrders.setShy(orders.getShy());
-			newOrders.setShz(orders.getShz());
-			newOrders.setWineId(orders.getWineId());
-			newOrders.setYwy(orders.getYwy());
-			newOrders.setTxm(txm);
-			result.add(newOrders);
+		try {
+			while ((i=in.read(array))!=-1){
+				String txm = new String(array);
+				Orders newOrders = new Orders();
+				newOrders.setDate(orders.getDate());
+				newOrders.setKdr(orders.getKdr());
+				newOrders.setShy(orders.getShy());
+				newOrders.setShz(orders.getShz());
+				newOrders.setWineId(orders.getWineId());
+				newOrders.setYwy(orders.getYwy());
+				newOrders.setTxm(txm);
+				result.add(newOrders);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new OperException(读取Excel文件异常);
 		}
 		if (in!=null){
-			in.close();
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new OperException(Excel文件关闭异常);
+			}
 		}
 		return result;
 	}
