@@ -7,6 +7,8 @@ public class Orders {
 
     private String txm;
 
+    private String xsdh;
+
     private Integer wineId;
 
     private String shy;
@@ -35,6 +37,14 @@ public class Orders {
 
     public void setTxm(String txm) {
         this.txm = txm == null ? null : txm.trim();
+    }
+
+    public String getXsdh() {
+        return xsdh;
+    }
+
+    public void setXsdh(String xsdh) {
+        this.xsdh = xsdh == null ? null : xsdh.trim();
     }
 
     public Integer getWineId() {

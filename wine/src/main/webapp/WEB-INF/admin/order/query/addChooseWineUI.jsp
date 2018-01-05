@@ -40,9 +40,9 @@ function FormatDate(date) {
 			
 		choose:function (index){
 			var chooseRow = $("#dgChooseWineList").datagrid("getData").rows[index];
-			$("#importWine_txbwineId").textbox("setValue",chooseRow.mc);
-			$("#importWine_txbwineId").attr("wineId",chooseRow.id);
-			$("#import_newChooseWine").dialog("close");
+			$("#addOrder_txbwineId").textbox("setValue",chooseRow.mc);
+			$("#addOrder_txbwineId").attr("wineId",chooseRow.id);
+			$("#addOrder_newChooseWine").dialog("close");
 		},
 		
 	};

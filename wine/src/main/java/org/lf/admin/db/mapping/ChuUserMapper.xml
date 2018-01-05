@@ -10,6 +10,8 @@
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
     <result column="BM_ID" property="bmId" jdbcType="INTEGER" />
     <result column="RYLX" property="rylx" jdbcType="INTEGER" />
+    <result column="JC" property="jc" jdbcType="VARCHAR" />
+    <result column="XS" property="xs" jdbcType="INTEGER" />
   </resultMap>
   <sql id="query_selectiveFuzzy">
   	<if test="id != null" >

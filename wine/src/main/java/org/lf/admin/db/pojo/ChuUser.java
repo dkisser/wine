@@ -17,6 +17,10 @@ public class ChuUser {
 
     private Integer rylx;
 
+    private String jc;
+
+    private Integer xs;
+
     public Integer getId() {
         return id;
     }
@@ -79,5 +83,21 @@ public class ChuUser {
 
     public void setRylx(Integer rylx) {
         this.rylx = rylx;
+    }
+
+    public String getJc() {
+        return jc;
+    }
+
+    public void setJc(String jc) {
+        this.jc = jc == null ? null : jc.trim();
+    }
+
+    public Integer getXs() {
+        return xs;
+    }
+
+    public void setXs(Integer xs) {
+        this.xs = xs;
     }
 }

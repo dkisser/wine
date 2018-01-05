@@ -88,7 +88,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		required: true,
 		editable:false,
 		buttonText:'查找',    
-	    iconCls:'icon-search', 
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseWine = $("<div id='import_newChooseWine'></div>");
@@ -112,7 +111,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		required:true,
 		editable:false,
 		buttonText:'查找',    
-	    iconCls:'icon-search', 
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseShy = $("<div id='import_newChooseShy'></div>");
@@ -136,7 +134,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		required:true,
 		editable:false,
 		buttonText:'查找',    
-	    iconCls:'icon-search', 
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseYwy = $("<div id='import_newChooseYwy'></div>");
@@ -160,7 +157,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		required:true,
 		editable:false,
 		buttonText:'查找',    
-	    iconCls:'icon-search', 
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseShr = $("<div id='import_newChooseShr'></div>");

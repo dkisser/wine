@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.lf.admin.db.dao.VOrderMapper" >
+  <resultMap id="BaseResultMap" type="org.lf.admin.db.pojo.VOrder" >
+    <result column="ORDER_ID" property="orderId" jdbcType="INTEGER" />
+    <result column="TXM" property="txm" jdbcType="VARCHAR" />
+    <result column="XSDH" property="xsdh" jdbcType="VARCHAR" />
+    <result column="WINE_MC" property="wineMc" jdbcType="VARCHAR" />
+    <result column="SHY" property="shy" jdbcType="VARCHAR" />
+    <result column="YWY" property="ywy" jdbcType="VARCHAR" />
+    <result column="KDR" property="kdr" jdbcType="VARCHAR" />
+    <result column="SHZ" property="shz" jdbcType="VARCHAR" />
+    <result column="KHDH" property="khdh" jdbcType="VARCHAR" />
+    <result column="SHDZ" property="shdz" jdbcType="VARCHAR" />
+    <result column="DATE" property="date" jdbcType="DATE" />
+    <result column="BMMC" property="bmmc" jdbcType="VARCHAR" />
+    <result column="BM_TITLE" property="bmTitle" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="query_selective">
+  	  <if test="orderId != null" >
+        AND ORDER_ID=#{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="txm != null" >
+        AND TXM=#{txm,jdbcType=VARCHAR}
+      </if>
+      <if test="wineMc != null" >
+        AND WINE_MC=#{wineMc,jdbcType=VARCHAR}
+      </if>
+      <if test="shy != null" >
+        AND SHY=#{shy,jdbcType=VARCHAR}
+      </if>
+      <if test="ywy != null" >
+       AND YWY=#{ywy,jdbcType=VARCHAR}
+      </if>
+      <if test="kdr != null" >
+        AND KDR=#{kdr,jdbcType=VARCHAR}
+      </if>
+      <if test="shz != null" >
+       AND SHZ=#{shz,jdbcType=VARCHAR}
+      </if>
+      <if test="khdh != null" >
+        AND KHDH=#{khdh,jdbcType=VARCHAR}
+      </if>
+      <if test="shdz != null" >
+        AND SHDZ=#{shdz,jdbcType=VARCHAR}
+      </if>
+      <if test="date != null" >
+        AND DATE=#{date,jdbcType=DATE}
+      </if>
+      <if test="bmmc != null" >
+        AND BMMC=#{bmmc,jdbcType=VARCHAR}
+      </if>
+      <if test="bmTitle != null" >
+        AND BM_TITLE=#{bmTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="picUrl != null" >
+        AND PIC_URL=#{picUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+        AND REMARK=#{remark,jdbcType=VARCHAR}
+      </if>
+  </sql>
+  <sql id="query_selectiveFuzzy">
+  	  <if test="orderId != null" >
+        AND ORDER_ID=#{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="txm != null" >
+        AND TXM LIKE CONCAT('%',#{txm,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="wineMc != null" >
+        AND WINE_MC=#{wineMc,jdbcType=VARCHAR}
+      </if>
+      <if test="shy != null" >
+        AND SHY=#{shy,jdbcType=VARCHAR}
+      </if>
+      <if test="ywy != null" >
+       AND YWY=#{ywy,jdbcType=VARCHAR}
+      </if>
+      <if test="kdr != null" >
+        AND KDR=#{kdr,jdbcType=VARCHAR}
+      </if>
+      <if test="shz != null" >
+       AND SHZ=#{shz,jdbcType=VARCHAR}
+      </if>
+      <if test="khdh != null" >
+        AND KHDH LIKE CONCAT('%',#{khdh,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="shdz != null" >
+        AND SHDZ=#{shdz,jdbcType=VARCHAR}
+      </if>
+      <if test="date != null" >
+        AND DATE <![CDATA[>=]]> #{date,jdbcType=DATE}
+      </if>
+      <if test="bmmc != null" >
+        AND BMMC=#{bmmc,jdbcType=VARCHAR}
+      </if>
+      <if test="bmTitle != null" >
+        AND BM_TITLE=#{bmTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="picUrl != null" >
+        AND PIC_URL=#{picUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+        AND REMARK=#{remark,jdbcType=VARCHAR}
+      </if>
+  </sql>
+  <insert id="insert" parameterType="org.lf.admin.db.pojo.VOrder" >
+    insert into v_order (ORDER_ID, TXM, WINE_MC, 
+      SHY, YWY, KDR, SHZ, 
+      KHDH, SHDZ, DATE, BMMC, 
+      BM_TITLE, PIC_URL, REMARK
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{txm,jdbcType=VARCHAR}, #{wineMc,jdbcType=VARCHAR}, 
+      #{shy,jdbcType=VARCHAR}, #{ywy,jdbcType=VARCHAR}, #{kdr,jdbcType=VARCHAR}, #{shz,jdbcType=VARCHAR}, 
+      #{khdh,jdbcType=VARCHAR}, #{shdz,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{bmmc,jdbcType=VARCHAR}, 
+      #{bmTitle,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lf.admin.db.pojo.VOrder" >
+    insert into v_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="txm != null" >
+        TXM,
+      </if>
+      <if test="wineMc != null" >
+        WINE_MC,
+      </if>
+      <if test="shy != null" >
+        SHY,
+      </if>
+      <if test="ywy != null" >
+        YWY,
+      </if>
+      <if test="kdr != null" >
+        KDR,
+      </if>
+      <if test="shz != null" >
+        SHZ,
+      </if>
+      <if test="khdh != null" >
+        KHDH,
+      </if>
+      <if test="shdz != null" >
+        SHDZ,
+      </if>
+      <if test="date != null" >
+        DATE,
+      </if>
+      <if test="bmmc != null" >
+        BMMC,
+      </if>
+      <if test="bmTitle != null" >
+        BM_TITLE,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="txm != null" >
+        #{txm,jdbcType=VARCHAR},
+      </if>
+      <if test="wineMc != null" >
+        #{wineMc,jdbcType=VARCHAR},
+      </if>
+      <if test="shy != null" >
+        #{shy,jdbcType=VARCHAR},
+      </if>
+      <if test="ywy != null" >
+        #{ywy,jdbcType=VARCHAR},
+      </if>
+      <if test="kdr != null" >
+        #{kdr,jdbcType=VARCHAR},
+      </if>
+      <if test="shz != null" >
+        #{shz,jdbcType=VARCHAR},
+      </if>
+      <if test="khdh != null" >
+        #{khdh,jdbcType=VARCHAR},
+      </if>
+      <if test="shdz != null" >
+        #{shdz,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="bmmc != null" >
+        #{bmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="bmTitle != null" >
+        #{bmTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="select" parameterType="org.lf.admin.db.pojo.VOrder"
+  resultMap="BaseResultMap">
+  	select * from v_order
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectFuzzy" parameterType="org.lf.admin.db.pojo.VOrder"
+  resultMap="BaseResultMap">
+  	select * from v_order
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
+  </select>
+  <select id="selectList" parameterType="org.lf.admin.db.pojo.VOrder"
+  resultMap="BaseResultMap">
+  	select * from v_order
+  		<where>
+  			<include refid="query_selectiveFuzzy"></include>
+  		</where>
+  </select>
+  <select id="selectListFuzzy" parameterType="org.lf.admin.db.pojo.VOrder"
+  resultMap="BaseResultMap">
+  	select * from v_order
+  		<where>
+  			<include refid="query_selectiveFuzzy"></include>
+  		</where>
+  </select>
+</mapper>

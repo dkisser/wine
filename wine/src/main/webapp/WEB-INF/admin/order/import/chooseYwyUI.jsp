@@ -40,7 +40,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#txbChooseYwyName").textbox({
 		width: 140,
 		 buttonText:'查看',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/order/getYwyList?name="+$("#txbChooseYwyName").textbox("getText")+"&phone="+$("#txbChooseYwyPhone").textbox("getText");
@@ -51,7 +50,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#txbChooseYwyPhone").textbox({
 		 width: 140,
 		 buttonText:'查看',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/order/getYwyList?name="+$("#txbChooseYwyName").textbox("getText")+"&phone="+$("#txbChooseYwyPhone").textbox("getText");

@@ -12,53 +12,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta charset="utf-8">
   </head>
 <body>
-	<div id="ChooseShrToolbar" style="height: 30px;width:100%;line-height: 20px;">
+	<div id="ChooseYwyToolbar" style="height: 30px;width:100%;line-height: 20px;">
 	    <div style="height: 100%;float: left;">
 	      <div style="float: left;"></div>
 	    </div>
 	    <div style="height: 100%;float: right;">
 	      <div>
 	        <div style="float: left;padding-top: 5px;">姓名：</div>
-	        <div style="float: left;padding-top: 5px;"><input id="txbChooseShrName" name="name"/></div>
-	        <div style="float: left;padding-left: 30px;padding-top: 5px;">电话号码：</div>
-	        <div style="float: left;padding-right: 30px;padding-top: 5px;"><input id="txbChooseShrPhone" name="phone"/></div>
+	        <div style="float: left;padding-top: 5px;"><input id="txbChooseYwyName" name="name"/></div>
+	        <div style="float: left;padding-left:30px;padding-top: 5px;">电话号码：</div>
+	        <div style="float: left;padding-right:30px;padding-top: 5px;"><input id="txbChooseYwyPhone" name="phone"/></div>
 	      </div>
 	    </div>
    	</div>
-    <div id="dgChooseShrList"></div>
+    <div id="dgChooseYwyList"></div>
 <script type="text/javascript">
 
-	var ChooseShr = {
+	var ChooseYwy = {
 		choose:function (index){
-			var chooseRow = $("#dgChooseShrList").datagrid("getData").rows[index];
-			$("#importWine_txbshr").textbox("setValue",chooseRow.name);
-			$("#importWine_txbshr").attr("shr",chooseRow.uname);
-			$("#import_newChooseShr").dialog("close");
+			var chooseRow = $("#dgChooseYwyList").datagrid("getData").rows[index];
+			$("#addOrder_txbywy").textbox("setValue",chooseRow.name);
+			$("#addOrder_txbywy").attr("ywy",chooseRow.uname);
+			$("#addOrder_newChooseYwy").dialog("close");
 		}	
 	};
 	
-	$("#txbChooseShrName").textbox({
-		width: 200,
+	$("#txbChooseYwyName").textbox({
+		width: 140,
 		 buttonText:'查看',   
 		 iconAlign:'right',
 		 onClickButton: function () {
-			var url = getContextPath() + "/data/getCustomerList?name="+$("#txbChooseShrName").textbox("getText")+"&phone="+$("#txbChooseShrPhone").textbox("getText");
-			$("#dgChooseShrList").datagrid("reload",url);
+			var url = getContextPath() + "/order/getYwyList?name="+$("#txbChooseYwyName").textbox("getText")+"&phone="+$("#txbChooseYwyPhone").textbox("getText");
+			$("#dgChooseYwyList").datagrid("reload",url);
 		 },
 	});
 	
-	$("#txbChooseShrPhone").textbox({
-		 width: 200,
+	$("#txbChooseYwyPhone").textbox({
+		 width: 140,
 		 buttonText:'查看',   
 		 iconAlign:'right',
 		 onClickButton: function () {
-			var url = getContextPath() + "/data/getCustomerList?name="+$("#txbChooseShrName").textbox("getText")+"&phone="+$("#txbChooseShrPhone").textbox("getText");
-			$("#dgChooseShrList").datagrid("reload",url);
+			var url = getContextPath() + "/order/getYwyList?name="+$("#txbChooseYwyName").textbox("getText")+"&phone="+$("#txbChooseYwyPhone").textbox("getText");
+			$("#dgChooseYwyList").datagrid("reload",url);
 		 },
 	});
 	
-	$("#dgChooseShrList").datagrid({
-		url: getContextPath() + "/data/getCustomerList",
+	$("#dgChooseYwyList").datagrid({
+		url: getContextPath() + "/order/getYwyList",
 		fit:true,
 		striped: true,
 		nowrap: true,
@@ -67,34 +67,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		rownumbers: true,
 		singleSelect: true,
 		showHeader: true,
-		toolbar:"#ChooseShrToolbar",
+		toolbar:"#ChooseYwyToolbar",
 		pagination:true,
-		pageSize:10,
-		pageList:['10'],
+		pageSize:5,
+		pageList:['5'],
 		columns: [[
 		           {
-		        	  width: "15%",
+		        	  width: "17%",
 		        	  title: "用户名",
 		        	  field: "uname",
 		        	  align: "center",
 		           },{
-		        	  width: "15%",
+		        	  width: "17%",
 		        	  title: "姓名",
 			          field: "name",
 			          align: "center", 
 		           },{
-		        	  width: "18%",
+		        	  width: "28%",
 		        	  title: "联系电话",
 			          field: "phone",
 			          align: "center", 
 		           },{
-		        	  width: "36%",
-			          title: "送货地址",
-				      field: "address",
+		        	  width: "20%",
+			          title: "人员类型",
+				      field: "rylx",
 				      align: "center", 
 				      formatter:function (value,row,index){
-							if (value.length>12){
-								return value.substring(0,12)+"...";
+							if (value==0){
+								return "送货员";
+							} else if (value ==1){
+								return "业务员";
 							}
 							return value;
 				      }
@@ -104,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				      field: "option",
 				      align: "center",
 				      formatter: function (value,row,index) {
-				    	  return "<a class='chooseCusBtn' onclick='ChooseShr.choose("+index+")'>选择</a>";
+				    	  return "<a class='chooseCusBtn' onclick='ChooseYwy.choose("+index+")'>选择</a>";
 				      }
 				   }
 		           ]],

@@ -10,5 +10,9 @@ public interface BaseMapper<T> {
 	
 	T select(T record);
 	
+	T selectFuzzy(T record);
+	
 	List<T> selectList(T record);
+	
+	List<T> selectListFuzzy (T record);
 }

@@ -130,7 +130,6 @@ function FormatDate(date) {
 	$("#txbWineMc").textbox({
 		 width: 200,
 		 buttonText:'Search',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/data/getWineList?mc="+$("#txbWineMc").textbox("getText")+"&price="+$("#txbWinePrice").textbox("getText")+"&date="+$("#txbWineDate").datebox("getText");
@@ -152,7 +151,6 @@ function FormatDate(date) {
 	$("#txbWinePrice").numberbox({
 		 width: 200,
 		 buttonText:'Search',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/data/getWineList?mc="+$("#txbWineMc").textbox("getText")+"&price="+$("#txbWinePrice").textbox("getText")+"&date="+$("#txbWineDate").datebox("getText");

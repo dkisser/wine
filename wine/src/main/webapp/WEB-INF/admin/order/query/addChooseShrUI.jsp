@@ -31,9 +31,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var ChooseShr = {
 		choose:function (index){
 			var chooseRow = $("#dgChooseShrList").datagrid("getData").rows[index];
-			$("#importWine_txbshr").textbox("setValue",chooseRow.name);
-			$("#importWine_txbshr").attr("shr",chooseRow.uname);
-			$("#import_newChooseShr").dialog("close");
+			$("#addOrder_txbshr").textbox("setValue",chooseRow.name);
+			$("#addOrder_txbshr").attr("shr",chooseRow.uname);
+			$("#addOrder_newChooseShr").dialog("close");
 		}	
 	};
 	

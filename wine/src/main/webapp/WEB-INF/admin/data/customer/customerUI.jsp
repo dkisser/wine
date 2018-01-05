@@ -123,7 +123,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#txbCustomerName").textbox({
 		 width: 200,
 		 buttonText:'Search',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/data/getCustomerList?name="+$("#txbCustomerName").textbox("getText")+"&phone="+$("#txbCustomerPhone").textbox("getText");
@@ -134,7 +133,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#txbCustomerPhone").textbox({
 		 width: 200,
 		 buttonText:'Search',   
-		 iconCls:'icon-search', 
 		 iconAlign:'right',
 		 onClickButton: function () {
 			var url = getContextPath() + "/data/getCustomerList?name="+$("#txbCustomerName").textbox("getText")+"&phone="+$("#txbCustomerPhone").textbox("getText");
