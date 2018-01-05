@@ -9,6 +9,7 @@ import org.lf.admin.action.BaseController;
 import org.lf.admin.db.pojo.ChuUser;
 import org.lf.admin.db.pojo.Orders;
 import org.lf.admin.service.ChuUserType;
+import org.lf.admin.service.OperException;
 import org.lf.admin.service.order.ImportService;
 import org.lf.utils.EasyuiDatagrid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,9 @@ public class ImportController extends BaseController{
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "上传失败，请重试";
+		} catch (OperException e) {
+			e.printStackTrace();
+			return e.getMessage();
 		}
 		return SUCCESS;
 	}

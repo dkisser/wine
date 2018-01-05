@@ -24,6 +24,7 @@
         <!-- mysql的jdbc连接版本 -->
         <mysql.version>5.1.42</mysql.version>
         <tomcat.version>7.0.75</tomcat.version>
+        <poi.version>3.17</poi.version>
   </properties>
 	
   <dependencies>
@@ -117,6 +118,28 @@
             <artifactId>log4j</artifactId>  
             <version>${log4j.version}</version>  
         </dependency> 
+        <!-- office处理框架  start -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml-schemas</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-scratchpad</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		<!-- office处理框架  end-->
         <!-- 格式化对象，方便输出日志 -->  
         <dependency>  
             <groupId>com.alibaba</groupId>  

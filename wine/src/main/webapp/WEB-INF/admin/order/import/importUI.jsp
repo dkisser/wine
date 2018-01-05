@@ -51,6 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					result = eval("("+result+")");
 					$.messager.progress("close");
 					if (result == "success") {
+						$("#importWine_txbwineId").textbox("clear");
+						$("#importWine_txbshy").textbox("clear");
+						$("#importWine_txbywy").textbox("clear");
+						$("#importWine_txbshr").textbox("clear");
+						$("#importWine_txbfile").textbox("clear");
 						$.messager.alert("提示"," 上传成功","info");
 					} else {
 						$.messager.alert("提示",result,"info");
