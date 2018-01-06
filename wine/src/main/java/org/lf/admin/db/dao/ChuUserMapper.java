@@ -18,4 +18,10 @@ public interface ChuUserMapper extends BaseMapper<ChuUser>{
     int updateByPrimaryKey(ChuUser record);
     
     List<ChuUser> selectListFuzzy (ChuUser user);
+    
+    /**
+     * 用于定时任务，让其每天晚上12点将xs置0
+     * @return
+     */
+    int resetChuUser();
 }

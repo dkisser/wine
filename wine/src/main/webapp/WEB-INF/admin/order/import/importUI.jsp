@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		height : 300,
 		closed : false,
 		cache : false,
-		modal : true,
+		inline:true,
 		onClose:function (){
 			$("#dlgImportMain").remove();
 		}
@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseWine = $("<div id='import_newChooseWine'></div>");
-	    	import_newChooseWine.appendTo("body");
+	    	import_newChooseWine.appendTo("#center");
 			$("#import_newChooseWine").dialog ({
 				href: getContextPath() + "/order/chooseWineUI",
 				title: "选择送货员",
@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseShy = $("<div id='import_newChooseShy'></div>");
-	    	import_newChooseShy.appendTo("body");
+	    	import_newChooseShy.appendTo("#center");
 			$("#import_newChooseShy").dialog ({
 				href: getContextPath() + "/order/chooseShyUI",
 				title: "选择送货员",
@@ -137,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseYwy = $("<div id='import_newChooseYwy'></div>");
-	    	import_newChooseYwy.appendTo("body");
+	    	import_newChooseYwy.appendTo("#center");
 			$("#import_newChooseYwy").dialog ({
 				href: getContextPath() + "/order/chooseYwyUI",
 				title: "选择业务员",
@@ -160,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    iconAlign:'right',
 	    onClickButton: function (){
 	    	var import_newChooseShr = $("<div id='import_newChooseShr'></div>");
-	    	import_newChooseShr.appendTo("body");
+	    	import_newChooseShr.appendTo("#center");
 			$("#import_newChooseShr").dialog ({
 				href: getContextPath() + "/order/chooseShrUI",
 				title: "选择收货人",

@@ -2,6 +2,7 @@ package org.lf.admin.service.order;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.lf.admin.db.pojo.ChuUser;
 import org.lf.admin.db.pojo.Orders;
 import org.lf.admin.service.OperErrCode;
 import org.lf.admin.service.OperException;
+import org.lf.utils.DateUtils;
 import org.lf.utils.EasyuiDatagrid;
 import org.lf.utils.ExcelFileUtils;
 import org.lf.utils.PageNavigator;
@@ -116,13 +118,47 @@ public class ImportService {
 	 * @throws IOException 
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	private Boolean importWineByTxt (Orders Orders,MultipartFile file) throws OperException{
-		List<Orders> oList=getAddWineListByTxt(Orders, file);
+	private Boolean importWineByTxt (Orders orders,MultipartFile file) throws OperException{
+		StringBuilder xsdh = new StringBuilder();
+		//查询chu_user表，得到xs
+		ChuUser u = new ChuUser();
+		u.setUname(orders.getYwy());
+		u = chuUserDao.select(u);
+		try {
+			xsdh.append("XSD-").append(DateUtils.DateToStr(orders.getDate())).append("-");
+			xsdh.append(u.getJc()).append(parseXs(u.getXs()+1));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new OperException(读取Excel文件异常);
+		}
+		orders.setXsdh(xsdh.toString());
+		List<Orders> oList=getAddWineListByTxt(orders, file);
 		Boolean result = false;
 		for (Orders o:oList){
 			result = ordersDao.insertSelective(o)>0?true:false;
 		}
+		u.setXs(u.getXs()+1);
+		chuUserDao.updateByPrimaryKey(u);
 		return result;
+	}
+	
+	/**
+	 * 在xs前面补0，让其变成3位
+	 * @param xs
+	 * @return
+	 */
+	private String parseXs (Integer xs){
+		StringBuilder resultXs = new StringBuilder();
+		if (xs/100>=1){
+			return xs.toString();
+		} else if (xs/10>=1){
+			resultXs.append("0");
+			resultXs.append(xs.toString());
+		} else {
+			resultXs.append("00");
+			resultXs.append(xs.toString());
+		}
+		return resultXs.toString();
 	}
 	
 	/**
@@ -143,11 +179,14 @@ public class ImportService {
 		}
 		//控制该数组大小（条形码长度+2），从而实现一行一行的读.
 		List<Orders> result = new ArrayList<Orders>();
-		byte[] array = new byte[11];
+		byte[] array = new byte[20];
 		int i=-1;
 		try {
 			while ((i=in.read(array))!=-1){
 				String txm = new String(array);
+				if (StringUtils.isEmpty(txm)){
+					continue;
+				}
 				Orders newOrders = new Orders();
 				newOrders.setDate(orders.getDate());
 				newOrders.setKdr(orders.getKdr());
@@ -156,6 +195,7 @@ public class ImportService {
 				newOrders.setWineId(orders.getWineId());
 				newOrders.setYwy(orders.getYwy());
 				newOrders.setTxm(txm);
+				newOrders.setXsdh(orders.getXsdh());
 				result.add(newOrders);
 			}
 		} catch (IOException e) {
@@ -181,8 +221,21 @@ public class ImportService {
 	 * @throws OperException 
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	private Boolean importWineByExcel (Orders Orders,MultipartFile file,Boolean isXls) throws OperException{
-		List<Orders> oList=getAddWineListByExcel(Orders, file,isXls);
+	private Boolean importWineByExcel (Orders orders,MultipartFile file,Boolean isXls) throws OperException{
+		StringBuilder xsdh = new StringBuilder();
+		//查询chu_user表，得到xs
+		ChuUser u = new ChuUser();
+		u.setUname(orders.getYwy());
+		u = chuUserDao.select(u);
+		try {
+			xsdh.append("XSD-").append(DateUtils.DateToStr(orders.getDate())).append("-");
+			xsdh.append(u.getJc()).append(parseXs(u.getXs()+1));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new OperException(读取Excel文件异常);
+		}
+		orders.setXsdh(xsdh.toString());
+		List<Orders> oList=getAddWineListByExcel(orders, file,isXls);
 		Boolean result = false;
 		for (Orders o:oList){
 			result = ordersDao.insertSelective(o)>0?true:false;
@@ -262,6 +315,7 @@ public class ImportService {
 			order.setTxm(txm);
 			order.setWineId(orders.getWineId());
 			order.setYwy(orders.getYwy());
+			order.setXsdh(orders.getXsdh());
 			oList.add(order);
 		}
 		return oList;

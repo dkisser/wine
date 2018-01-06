@@ -14,7 +14,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, TXM, WINE_ID, SHY, YWY, SHZ, KDR, DATE, REMARK
+    ID, TXM,XSDH, WINE_ID, SHY, YWY, SHZ, KDR, DATE, REMARK
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,10 +27,10 @@
     where ID = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.lf.admin.db.pojo.Orders">
-    insert into orders (ID, TXM, WINE_ID, 
+    insert into orders (ID, TXM,XSDH, WINE_ID, 
       SHY, YWY, SHZ, KDR, 
       DATE, REMARK)
-    values (#{id,jdbcType=INTEGER}, #{txm,jdbcType=VARCHAR}, #{wineId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{txm,jdbcType=VARCHAR},#{xsdh,jdbcType=VARCHAR}, #{wineId,jdbcType=INTEGER}, 
       #{shy,jdbcType=VARCHAR}, #{ywy,jdbcType=VARCHAR}, #{shz,jdbcType=VARCHAR}, #{kdr,jdbcType=VARCHAR}, 
       #{date,jdbcType=DATE}, #{remark,jdbcType=VARCHAR})
   </insert>
@@ -42,6 +42,9 @@
       </if>
       <if test="txm != null">
         TXM,
+      </if>
+      <if test="xsdh != null">
+        XSDH,
       </if>
       <if test="wineId != null">
         WINE_ID,
@@ -71,6 +74,9 @@
       </if>
       <if test="txm != null">
         #{txm,jdbcType=VARCHAR},
+      </if>
+      <if test="xsdh != null">
+        #{xsdh,jdbcType=VARCHAR},
       </if>
       <if test="wineId != null">
         #{wineId,jdbcType=INTEGER},
@@ -104,6 +110,9 @@
       <if test="wineId != null">
         WINE_ID = #{wineId,jdbcType=INTEGER},
       </if>
+      <if test="xsdh != null">
+        XSDH = #{xsdh,jdbcType=VARCHAR},
+      </if>
       <if test="shy != null">
         SHY = #{shy,jdbcType=VARCHAR},
       </if>
@@ -129,6 +138,7 @@
     update orders
     set TXM = #{txm,jdbcType=VARCHAR},
       WINE_ID = #{wineId,jdbcType=INTEGER},
+      XSDH = #{xsdh,jdbcType=VARCHAR},
       SHY = #{shy,jdbcType=VARCHAR},
       YWY = #{ywy,jdbcType=VARCHAR},
       SHZ = #{shz,jdbcType=VARCHAR},

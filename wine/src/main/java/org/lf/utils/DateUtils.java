@@ -11,6 +11,8 @@ public class DateUtils {
 	
 	private static DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 	
+	private static DateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+	
 	/**
 	 * 将Date型转换成yyyy-MM-dd HH:mm:ss的格式字符串输出
 	 * @param date
@@ -44,6 +46,14 @@ public class DateUtils {
 		return sdf1.parse(str);
 	}
 	
+	/**
+	 * 将Date转换成yyMMdd的字符串
+	 * @param str
+	 * @throws ParseException
+	 */
+	public static String DateToStr(Date date) throws ParseException {
+		return sdf2.format(date);
+	}
 	/**
 	 * 将Date转换成int型存入到数据库中
 	 * @param date

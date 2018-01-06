@@ -178,16 +178,19 @@ function FormatDate(date) {
 		        	  title: "酒名",
 		        	  field: "mc",
 		        	  align: "center",
+		        	  resizable: false
 		           },{
 		        	  width: "15%",
 		        	  title: "零售价",
 			          field: "price",
 			          align: "center", 
+			          resizable: false
 		           },{
 		        	  width: "18%",
 		        	  title: "出厂日期",
 			          field: "date",
 			          align: "center",
+			          resizable: false,
 			          formatter:function (value,row,index){
 			        	  return FormatDate(new Date(value));
 			          }
@@ -195,12 +198,14 @@ function FormatDate(date) {
 		        	  width: "36%",
 			          title: "备注",
 				      field: "remark",
-				      align: "center", 
+				      align: "center",
+				      resizable: false
 			       },{
 			    	  width: "14%",
 				      title: "操作",
 				      field: "option",
 				      align: "center",
+				      resizable: false,
 				      formatter: function (value,row,index) {
 				    	  return "<a class='editCusBtn' onclick='Wine.edit("+index+")'>修改</a>&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Wine.del("+index+")'>删除</a>";
 				      }

@@ -160,26 +160,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	  title: "用户名",
 		        	  field: "uname",
 		        	  align: "center",
+		        	  resizable: false
 		           },{
 		        	  width: "15%",
 		        	  title: "姓名",
 			          field: "name",
-			          align: "center", 
+			          align: "center",
+			          resizable: false
 		           },{
 		        	  width: "18%",
 		        	  title: "联系电话",
 			          field: "phone",
-			          align: "center", 
+			          align: "center",
+			          resizable: false
 		           },{
 		        	  width: "36%",
 			          title: "送货地址",
 				      field: "address",
-				      align: "center", 
+				      align: "center",
+				      resizable: false
 			       },{
 			    	  width: "14%",
 				      title: "操作",
 				      field: "option",
 				      align: "center",
+				      resizable: false,
 				      formatter: function (value,row,index) {
 				    	  return "<a class='editCusBtn' onclick='Customer.edit("+index+")'>修改</a>&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Customer.del("+index+")'>删除</a>";
 				      }

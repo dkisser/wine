@@ -38,6 +38,12 @@
   	<if test="rylx != null" >
        AND  RYLX = #{rylx,jdbcType=INTEGER}
     </if>
+  	<if test="jc != null" >
+       AND  JC = #{jc,jdbcType=VARCHAR}
+    </if>
+  	<if test="xs != null" >
+       AND  XS = #{xs,jdbcType=INTEGER}
+    </if>
   </sql>
   <sql id="query_selective">
   	<if test="id != null" >
@@ -64,10 +70,16 @@
   	<if test="rylx != null" >
        AND  RYLX = #{rylx,jdbcType=INTEGER}
     </if>
+    <if test="jc != null" >
+       AND  JC = #{jc,jdbcType=VARCHAR}
+    </if>
+  	<if test="xs != null" >
+       AND  XS = #{xs,jdbcType=INTEGER}
+    </if>
   </sql>
 
   <sql id="Base_Column_List" >
-    ID, UNAME, UPW, ROLE, NAME, PHONE, BM_ID, RYLX
+    ID, UNAME, UPW, ROLE, NAME, PHONE, BM_ID, RYLX,JC,XS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -82,10 +94,10 @@
   <insert id="insert" parameterType="org.lf.admin.db.pojo.ChuUser" >
     insert into chu_user (ID, UNAME, UPW, 
       ROLE, NAME, PHONE, 
-      BM_ID, RYLX)
+      BM_ID, RYLX,JC,XS)
     values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{upw,jdbcType=VARCHAR}, 
       #{role,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{bmId,jdbcType=INTEGER}, #{rylx,jdbcType=INTEGER})
+      #{bmId,jdbcType=INTEGER}, #{rylx,jdbcType=INTEGER},#{jc,jdbcType=VARCHAR},#{xs,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.lf.admin.db.pojo.ChuUser" >
     insert into chu_user
@@ -114,6 +126,12 @@
       <if test="rylx != null" >
         RYLX,
       </if>
+      <if test="jc != null" >
+        JC,
+      </if>
+      <if test="xs != null" >
+        XS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -139,6 +157,12 @@
       </if>
       <if test="rylx != null" >
         #{rylx,jdbcType=INTEGER},
+      </if>
+      <if test="jc != null" >
+        #{jc,jdbcType=VARCHAR},
+      </if>
+      <if test="xs != null" >
+        #{xs,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -166,6 +190,12 @@
       <if test="rylx != null" >
         RYLX = #{rylx,jdbcType=INTEGER},
       </if>
+      <if test="jc != null" >
+        JC = #{jc,jdbcType=VARCHAR},
+      </if>
+      <if test="xs != null" >
+        XS = #{xs,jdbcType=INTEGER},
+      </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -177,7 +207,9 @@
       NAME = #{name,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
       BM_ID = #{bmId,jdbcType=INTEGER},
-      RYLX = #{rylx,jdbcType=INTEGER}
+      RYLX = #{rylx,jdbcType=INTEGER},
+      JC = #{jc,jdbcType=VARCHAR},
+      XS = #{xs,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="select" parameterType="org.lf.admin.db.pojo.ChuUser"
@@ -201,4 +233,7 @@
 	  			<include refid="query_selectiveFuzzy"></include>
 	  		</where>
   </select>
+  <update id="resetChuUser">
+  	update chu_user set xs=0;
+  </update>
 </mapper>

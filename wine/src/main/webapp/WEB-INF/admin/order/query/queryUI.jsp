@@ -159,21 +159,31 @@ function FormatDate(date) {
 		        	  title: "销售单号",
 		        	  field: "xsdh",
 		        	  align: "center",
+		        	  resizable: false,
+		        	  formatter:function (value,row,index){
+		        		  return "<span class='tooltips' title='"+row.xsdh+"'>..."+value.substring(8)+"</spans>";
+		        	  }
 		           },{
 		        	  width: "12%",
 		        	  title: "条形码",
 		        	  field: "txm",
 		        	  align: "center",
+		        	  resizable: false,
+		        	  formatter:function (value,row,index){
+		        		  return "<span class='tooltips' title='"+row.txm+"'>"+value.substring(0,value.length-8)+"..."+"</span>";
+		        	  }
 		           },{
 		        	  width: "15%",
 		        	  title: "商品名",
 			          field: "wineMc",
-			          align: "center", 
+			          align: "center",
+			          resizable: false
 		           },{
 		        	  width: "10%",
 			          title: "出货日期",
 				      field: "date",
 				      align: "center",
+				      resizable: false,
 				      formatter:function (value,row,index){
 				    	  return FormatDate(new Date(value));
 				      }
@@ -181,27 +191,32 @@ function FormatDate(date) {
 		        	  width: "10%",
 		        	  title: "送货员",
 			          field: "shy",
-			          align: "center", 
+			          align: "center",
+			          resizable: false
 		           },{
 		        	  width: "10%",
 			          title: "业务员",
 				      field: "ywy",
-				      align: "center", 
+				      align: "center",
+				      resizable: false
 			       },{
 		        	  width: "10%",
 			          title: "收货客户",
 				      field: "shz",
-				      align: "center", 
+				      align: "center",
+				      resizable: false
 			       },{
 		        	  width: "12%",
 			          title: "客户电话",
 				      field: "khdh",
-				      align: "center", 
+				      align: "center",
+				      resizable: false
 			       },{
 			    	  width: "8%",
 				      title: "操作",
 				      field: "option",
 				      align: "center",
+				      resizable: false,
 				      formatter: function (value,row,index) {
 				    	  return "<a class='delCusBtn' onclick='Query.del("+index+")'>删除</a>";
 				      }
@@ -215,6 +230,12 @@ function FormatDate(date) {
 		        		 height: 24,
 		        	 }); 
 		        	 
+		        	 $('.tooltips').tooltip({    
+		        		 onShow: function(){        
+		        			 $(this).tooltip('tip').css({            
+		        				 borderColor: '#666'        
+		        				 });    
+		        			 }});
 		           },
 	});
 </script>  
