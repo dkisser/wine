@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="PrintToolbar" style="height: 30px;width:100%;line-height: 20px;">
 	    <div style="height: 100%;float: left;">
 	      <div style="float: left;">
-	      	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="Print.print()">打印</a>
+	      	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="report.print()">打印</a>
 	      </div>
 	    </div>
 	    <div style="height: 100%;float: right;">
@@ -39,22 +39,11 @@ function FormatDate(date) {
 	return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 }
 
-	var Print = {
+	var report = {
 		
 		print:function (){
 			
 		},
-		
-		chooseAll:function (){
-			var oldVal = $("#reportUI_chooseAll").attr("checked");
-			if (oldVal=="checked"){
-				$(".reportRadio").attr("checked",null);
-				$("#reportUI_chooseAll").attr("checked",null);
-			} else {
-				$(".reportRadio").attr("checked","checked");
-				$("#reportUI_chooseAll").attr("checked","checked");
-			}
-		}
 		
 	};
 	
@@ -112,18 +101,18 @@ function FormatDate(date) {
 		showHeader: true,
 		toolbar:"#PrintToolbar",
 		pagination:true,
+	    selectOnCheck: false,
+		checkOnSelect: false,
+		singleSelect: true,
 		pageSize:15,
 		pageList:['15'],
 		columns: [[
-		           {
-		        	  width: "3%",
-		        	  title: "<input id='reportUI_chooseAll' type='radio' onclick='Print.chooseAll()'/>",
-		        	  field: "all",
-		        	  align: "center",
+		           {	
+		        	  field:"check",
+		        	  width: "4%",
+		        	  checkbox:true,
 		        	  resizable: false,
-		        	  formatter:function (value,row,index){
-		        		return "<input id='radio"+index+"' class='reportRadio' type='radio'/>";  
-		        	  }
+		        	  editor:{"checkbox":{"name":111}}
 		           },{
 		        	  width: "16%",
 		        	  title: "销售单号",
@@ -192,15 +181,6 @@ function FormatDate(date) {
 		        				 });    
 		        			 }});
 		           },
-		           onClickRow:function (index, row){
-		        	   var oldVal = $("#radio"+index).attr("checked");
-		        	   if (oldVal=="checked"){
-		        		   $("#radio"+index).attr("checked",null);
-		        	   } else {
-		        		   $("#radio"+index).attr("checked","checked");
-		        	   }
-		        	   
-		           }
 	});
 </script>  
 </body>
