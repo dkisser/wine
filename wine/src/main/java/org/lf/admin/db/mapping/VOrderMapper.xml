@@ -25,6 +25,9 @@
       <if test="txm != null" >
         AND TXM=#{txm,jdbcType=VARCHAR}
       </if>
+      <if test="xsdh != null" >
+        AND XSDH=#{xsdh,jdbcType=VARCHAR}
+      </if>
       <if test="wineMc != null" >
         AND WINE_MC=#{wineMc,jdbcType=VARCHAR}
       </if>
@@ -68,6 +71,9 @@
       </if>
       <if test="txm != null" >
         AND TXM LIKE CONCAT('%',#{txm,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="xsdh != null" >
+        AND XSDH LIKE CONCAT ('%',#{xsdh,jdbcType=VARCHAR},'%')
       </if>
       <if test="wineMc != null" >
         AND WINE_MC=#{wineMc,jdbcType=VARCHAR}

@@ -22,9 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </div>
 	    <div style="height: 100%;float: right;">
 	      <div>
-	        <div style="float: left;padding-top: 5px;">条形码：</div>
-	        <div style="float: left;padding-top: 5px;padding-right: 10px;"><input id="txbPrintTxm" name="txm"/></div>
-	        <div style="float: left;padding-left: 5px;padding-top: 5px;">收货电话：</div>
+	        <div style="float: left;padding-top: 5px;">销售单号：</div>
+	        <div style="float: left;padding-top: 5px;padding-right: 10px;"><input id="txbPrintXsdh" name="xsdh"/></div>
+	        <div style="float: left;padding-left: 5px;padding-top: 5px;">客户电话：</div>
 	        <div style="float: left;padding-right: 10px;padding-top: 5px;"><input id="txbPrintKhdh" name="khdh"/></div>
 	        <div style="float: left;padding-left: 10px;padding-top: 5px;">出货日期：</div>
 	        <div style="float: left;padding-right: 30px;padding-top: 5px;"><input id="txbPrintChrq" name="chrq"/></div>
@@ -60,12 +60,12 @@ function FormatDate(date) {
 		}
 	});
 		
-	$("#txbPrintTxm").numberbox({
+	$("#txbPrintXsdh").textbox({
 		 width: 200,
 		 buttonText:'Search',   
 		 iconAlign:'right',
 		 onClickButton: function () {
-			var url = getContextPath() + "/order/getVOrderList?txm="+$("#txbPrintTxm").textbox("getText")+"&khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
+			var url = getContextPath() + "/order/getReportList?xsdh="+$("#txbPrintXsdh").textbox("getText")+"&khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
 			$("#dgPrintList").datagrid("reload",url);
 		 },
 	});
@@ -75,7 +75,7 @@ function FormatDate(date) {
 		 buttonText:'Search',   
 		 iconAlign:'right',
 		 onClickButton: function () {
-			var url = getContextPath() + "/order/getVOrderList?txm="+$("#txbPrintTxm").textbox("getText")+"&Khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
+			var url = getContextPath() + "/order/getReportList?xsdh="+$("#txbPrintXsdh").textbox("getText")+"&Khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
 			$("#dgPrintList").datagrid("reload",url);
 		 },
 	});
@@ -85,13 +85,13 @@ function FormatDate(date) {
 		 buttonText:'Search',   
 		 iconAlign:'right',
 		 onClickButton: function () {
-			var url = getContextPath() + "/order/getVOrderList?txm="+$("#txbPrintTxm").textbox("getText")+"&Khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
+			var url = getContextPath() + "/order/getReportList?xsdh="+$("#txbPrintXsdh").textbox("getText")+"&Khdh="+$("#txbPrintKhdh").textbox("getText")+"&chrq="+$("#txbPrintChrq").datebox("getValue");
 			$("#dgPrintList").datagrid("reload",url);
 		 },
 	});
 
 	$("#dgPrintList").datagrid({
-		url: getContextPath() + "/order/getVOrderList",
+		url: getContextPath() + "/order/getReportList",
 		fit:true,
 		striped: true,
 		nowrap: true,
@@ -111,10 +111,9 @@ function FormatDate(date) {
 		        	  field:"check",
 		        	  width: "4%",
 		        	  checkbox:true,
-		        	  resizable: false,
-		        	  editor:{"checkbox":{"name":111}}
+		        	  resizable: false
 		           },{
-		        	  width: "16%",
+		        	  width: "24%",
 		        	  title: "销售单号",
 		        	  field: "xsdh",
 		        	  align: "center",
@@ -123,22 +122,13 @@ function FormatDate(date) {
 		        		  return "<span class='tooltips' title='"+row.xsdh+"'>"+value+"</spans>";
 		        	  }
 		           },{
-		        	  width: "16%",
-		        	  title: "条形码",
-		        	  field: "txm",
-		        	  align: "center",
-		        	  resizable: false,
-		        	  formatter:function (value,row,index){
-		        		  return "<span class='tooltips' title='"+row.txm+"'>"+value+"</span>";
-		        	  }
-		           },{
 		        	  width: "15%",
 		        	  title: "商品名",
 			          field: "wineMc",
 			          align: "center",
 			          resizable: false
 		           },{
-		        	  width: "10%",
+		        	  width: "12%",
 			          title: "出货日期",
 				      field: "date",
 				      align: "center",
@@ -147,25 +137,25 @@ function FormatDate(date) {
 				    	  return FormatDate(new Date(value));
 				      }
 			       },{
-		        	  width: "10%",
+		        	  width: "11%",
 		        	  title: "送货员",
 			          field: "shy",
 			          align: "center",
 			          resizable: false
 		           },{
-		        	  width: "10%",
+		        	  width: "11%",
 			          title: "业务员",
 				      field: "ywy",
 				      align: "center",
 				      resizable: false
 			       },{
-		        	  width: "10%",
+		        	  width: "11%",
 			          title: "收货客户",
 				      field: "shz",
 				      align: "center",
 				      resizable: false
 			       },{
-		        	  width: "12%",
+		        	  width: "15%",
 			          title: "客户电话",
 				      field: "khdh",
 				      align: "center",

@@ -18,7 +18,7 @@
         AND ID = #{id,jdbcType=INTEGER}
     </if>
   	<if test="uname != null" >
-        AND UNAME = #{uname,jdbcType=VARCHAR}
+        AND UNAME LIKE CONCAT('%',#{uname,jdbcType=VARCHAR},'%') 
     </if>
   	<if test="upw != null" >
         AND UPW = #{upw,jdbcType=VARCHAR}
