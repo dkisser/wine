@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.lf.admin.service.OperErrCode;
 import org.lf.admin.service.OperException;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,7 +139,7 @@ public class ExcelFileUtils {
 		return style;
 	}
 
-	public static void exportExcel(HSSFWorkbook wb, HttpServletResponse response, String fileName) throws OperException {
+	public static void exportExcel(Workbook wb, HttpServletResponse response, String fileName) throws OperException {
 		OutputStream out = null;
 		try {
 			response.setContentType("multipart/form-data");

@@ -46,6 +46,10 @@ public class DateUtils {
 		return sdf1.parse(str);
 	}
 	
+	public static String date2Str (Date date) throws ParseException{
+		return sdf1.format(date);
+	}
+	
 	/**
 	 * 将Date转换成yyMMdd的字符串
 	 * @param str

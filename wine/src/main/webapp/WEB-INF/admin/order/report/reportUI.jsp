@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="PrintToolbar" style="height: 30px;width:100%;line-height: 20px;">
 	    <div style="height: 100%;float: left;">
 	      <div style="float: left;">
+	      	<form id="printForm" method="POST"><input type="hidden" name="randomInfo" value="<%=Math.random()%>"/></form>
 	      	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="report.print()">打印</a>
 	      </div>
 	    </div>
@@ -40,9 +41,26 @@ function FormatDate(date) {
 }
 
 	var report = {
-		
 		print:function (){
-			
+			$.messager.confirm("提示","您确定要打印选中的"+$("#dgPrintList").datagrid("getChecked").length+"件商品吗？",function(sure){
+				if (sure){
+					$("#printForm").form("submit",{
+						url:getContextPath() +"/order/exportExcel",
+						onSubmit: function(param){
+							if (!$("#dgPrintList").datagrid("getChecked").length>0){
+								$.messager.alert("提示","请至少选择一件商品来打印","info");
+								return false;
+							}
+							param.list = JSON.stringify($("#dgPrintList").datagrid("getChecked"));
+						}, 
+						success: function(res){
+		 					if(res != "success"){
+		 						$.messager.alert('失败',data,'warning');
+		 					}
+		 				}
+					});
+				}
+			});
 		},
 		
 	};
@@ -82,6 +100,7 @@ function FormatDate(date) {
 	
 	$("#txbPrintChrq").datebox({
 		 width: 200,
+		 editable:false,
 		 buttonText:'Search',   
 		 iconAlign:'right',
 		 onClickButton: function () {
@@ -104,8 +123,8 @@ function FormatDate(date) {
 	    selectOnCheck: false,
 		checkOnSelect: false,
 		singleSelect: true,
-		pageSize:15,
-		pageList:['15'],
+		pageSize:100,
+		pageList:['100'],
 		columns: [[
 		           {	
 		        	  field:"check",
@@ -113,7 +132,7 @@ function FormatDate(date) {
 		        	  checkbox:true,
 		        	  resizable: false
 		           },{
-		        	  width: "24%",
+		        	  width: "20%",
 		        	  title: "销售单号",
 		        	  field: "xsdh",
 		        	  align: "center",
@@ -122,7 +141,7 @@ function FormatDate(date) {
 		        		  return "<span class='tooltips' title='"+row.xsdh+"'>"+value+"</spans>";
 		        	  }
 		           },{
-		        	  width: "15%",
+		        	  width: "19%",
 		        	  title: "商品名",
 			          field: "wineMc",
 			          align: "center",
