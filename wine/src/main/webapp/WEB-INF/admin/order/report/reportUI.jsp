@@ -49,7 +49,7 @@ function FormatDate(date) {
 						onSubmit: function(param){
 							param.xsdh = row.xsdh;
 						}, 
-						onSuccess: function(res){
+						success: function(res){
 		 					if(res != "success"){
 		 						$.messager.alert('失败',data,'warning');
 		 					}

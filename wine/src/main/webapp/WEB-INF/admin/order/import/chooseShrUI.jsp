@@ -74,12 +74,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		columns: [[
 		           {
 		        	  width: "15%",
-		        	  title: "用户名",
+		        	  title: "客户名称",
 		        	  field: "uname",
 		        	  align: "center",
 		           },{
 		        	  width: "15%",
-		        	  title: "姓名",
+		        	  title: "负责人",
 			          field: "name",
 			          align: "center", 
 		           },{

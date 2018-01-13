@@ -88,18 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			          field: "phone",
 			          align: "center", 
 		           },{
-		        	  width: "20%",
-			          title: "人员类型",
-				      field: "rylx",
+		        	   width: "20%",
+			          title: "今日销售数",
+				      field: "xs",
 				      align: "center", 
-				      formatter:function (value,row,index){
-							if (value==0){
-								return "送货员";
-							} else if (value ==1){
-								return "业务员";
-							}
-							return value;
-				      }
 			       },{
 			    	  width: "14%",
 				      title: "操作",

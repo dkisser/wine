@@ -156,14 +156,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		pageList:['15'],
 		columns: [[
 		           {
-		        	  width: "15%",
-		        	  title: "用户名",
+		        	  width: "19%",
+		        	  title: "客户名称",
 		        	  field: "uname",
 		        	  align: "center",
 		        	  resizable: false
 		           },{
 		        	  width: "15%",
-		        	  title: "姓名",
+		        	  title: "负责人",
 			          field: "name",
 			          align: "center",
 			          resizable: false
@@ -174,7 +174,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			          align: "center",
 			          resizable: false
 		           },{
-		        	  width: "36%",
+		        	  width: "32%",
 			          title: "送货地址",
 				      field: "address",
 				      align: "center",

@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			<tr><td style="width:105px;"></td><td style="text-align: right;">录入文件:</td><td><input id="importWine_txbfile" name="file"/></td><td></td></tr>
    		</table>
    </form>
+   <form id="printForm" method="POST"><input type="hidden" name="randomInfo" value="<%=Math.random()%>"/></form>
    		<table>
    			<tr><td style="height: 40px;"></td></tr>
    			<tr><td style="width:140px;"></td><td style="width:200px; text-align:center;"><a id="importBtn" onclick="importWine.importWine()">确认</a></td></tr>
@@ -48,15 +49,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					param.shz = $("#importWine_txbshr").attr("shr");
 				},
 				success:function (result) {
+					alert(result);
 					result = eval("("+result+")");
+					alert(result);
 					$.messager.progress("close");
-					if (result == "success") {
+					if (result.status == "success") {
 						$("#importWine_txbwineId").textbox("clear");
 						$("#importWine_txbshy").textbox("clear");
 						$("#importWine_txbywy").textbox("clear");
 						$("#importWine_txbshr").textbox("clear");
 						$("#importWine_txbfile").textbox("clear");
 						$.messager.alert("提示"," 上传成功","info");
+						//下载请求
+						$("#printForm").form("submit",{
+							url:getContextPath() +"/order/exportExcel",
+							onSubmit: function(param){
+								param.xsdh = result.xsdh;
+							}, 
+							success: function(res){
+			 					if(res != "success"){
+			 						$.messager.alert('失败',data,'warning');
+			 					}
+			 				}
+						});
 					} else {
 						$.messager.alert("提示",result,"info");
 					}
@@ -94,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	import_newChooseWine.appendTo("#center");
 			$("#import_newChooseWine").dialog ({
 				href: getContextPath() + "/order/chooseWineUI",
-				title: "选择送货员",
+				title: "选择商品类型",
 				width: 1024,
 				height: 600,
 				inline: true,

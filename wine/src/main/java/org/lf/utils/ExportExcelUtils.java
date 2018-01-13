@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,26 +67,62 @@ public class ExportExcelUtils {
         }else {
             workBook = new HSSFWorkbook();
         }
-        //创建工作簿
-        Sheet sheet = workBook.createSheet();
-        sheet.setDefaultColumnWidth(10);
-        sheet.setDefaultRowHeightInPoints(24);
-        sheet.setColumnHidden(4, true);
-        sheet.setColumnHidden(7, true);
-        //设置列宽
-        setSheetWidth(sheet);
-        //设置行高
-        setSheetHeight(sheet);
-        //创建第一个行对象
-        createFirstRow(sheet, workBook);
-        //设置第二行
-        createSecondRow(sheet, workBook,list.get(0));
-        //设置第三行
-        createThridRow(sheet, workBook,list,cdr);
-        //设置中间打印条形码的部分
-        createTable(sheet, workBook,list);
-        //设置最后部分
-        createFinalRow(sheet, workBook);
+		//若是oList大于100的情况
+		if (list.size()>100){
+			int num = list.size()%100==0?list.size()/100:list.size()/100+1;
+			int rest= list.size();
+			for (int i=0;i<num;i++){
+				//创建工作簿
+				Sheet sheet = workBook.createSheet();
+				sheet.setDefaultColumnWidth(10);
+				sheet.setDefaultRowHeightInPoints(24);
+				sheet.setColumnHidden(4, true);
+				sheet.setColumnHidden(7, true);
+				//设置列宽
+				setSheetWidth(sheet);
+				//设置行高
+				setSheetHeight(sheet);
+				//创建第一个行对象
+				createFirstRow(sheet, workBook);
+				//设置第二行
+				List<VOrder> oList = null;
+				if (rest-i*100>=0){
+					oList = new ArrayList<VOrder>(list.subList(i*100, i*100+100));
+					rest-=100;
+				} else {
+					oList = new ArrayList<VOrder>(list.subList(i*100, i*100+rest));
+				}
+				createSecondRow(sheet, workBook,oList.get(0));
+				//设置第三行
+				createThridRow(sheet, workBook,oList,cdr);
+				//设置中间打印条形码的部分
+				createTable(sheet, workBook,oList);
+				//设置最后部分
+				createFinalRow(sheet, workBook);
+			}
+		} else {
+			//若是oList.size()小于100的情况
+			//创建工作簿
+			Sheet sheet = workBook.createSheet();
+			sheet.setDefaultColumnWidth(10);
+			sheet.setDefaultRowHeightInPoints(24);
+			sheet.setColumnHidden(4, true);
+			sheet.setColumnHidden(7, true);
+			//设置列宽
+			setSheetWidth(sheet);
+			//设置行高
+			setSheetHeight(sheet);
+			//创建第一个行对象
+			createFirstRow(sheet, workBook);
+			//设置第二行
+			createSecondRow(sheet, workBook,list.get(0));
+			//设置第三行
+			createThridRow(sheet, workBook,list,cdr);
+			//设置中间打印条形码的部分
+			createTable(sheet, workBook,list);
+			//设置最后部分
+			createFinalRow(sheet, workBook);
+		}
         
        return workBook;
 	}

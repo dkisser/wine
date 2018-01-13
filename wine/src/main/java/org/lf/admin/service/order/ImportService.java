@@ -75,7 +75,7 @@ public class ImportService {
 	 * @throws IOException 
 	 * @throws OperException 
 	 */
-	public Boolean importWine (Orders Orders,MultipartFile file) throws OperException{
+	public String importWine (Orders Orders,MultipartFile file) throws OperException{
 		String fileName = file.getOriginalFilename();
 		String suffixName = fileName.split("\\.")[1];
 		if (suffixName.equals("txt")){
@@ -85,7 +85,7 @@ public class ImportService {
 		} else if (suffixName.equals("xlsx")){
 			return importWineByExcel(Orders, file,false);
 		}else {
-			return false;
+			return null;
 		}
 	}
 	
@@ -113,12 +113,12 @@ public class ImportService {
 	 * 根据上传的txt文件插入数据到Orders表
 	 * @param Orders
 	 * @param file
-	 * @return
+	 * @return	返回销售单号，供后面的导出Excel使用
 	 * @throws OperException 
 	 * @throws IOException 
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	private Boolean importWineByTxt (Orders orders,MultipartFile file) throws OperException{
+	private String importWineByTxt (Orders orders,MultipartFile file) throws OperException{
 		StringBuilder xsdh = new StringBuilder();
 		//查询chu_user表，得到xs
 		ChuUser u = new ChuUser();
@@ -133,13 +133,12 @@ public class ImportService {
 		}
 		orders.setXsdh(xsdh.toString());
 		List<Orders> oList=getAddWineListByTxt(orders, file);
-		Boolean result = false;
 		for (Orders o:oList){
-			result = ordersDao.insertSelective(o)>0?true:false;
+			ordersDao.insertSelective(o);
 		}
 		u.setXs(u.getXs()+1);
-		chuUserDao.updateByPrimaryKey(u);
-		return result;
+		chuUserDao.updateByPrimaryKeySelective(u);
+		return xsdh.toString();
 	}
 	
 	/**
@@ -217,11 +216,11 @@ public class ImportService {
 	 * 根据上传的excel文件插入数据到Orders表
 	 * @param Orders
 	 * @param file
-	 * @return
+	 * @return 返回销售单号，供后面的导出Excel使用
 	 * @throws OperException 
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	private Boolean importWineByExcel (Orders orders,MultipartFile file,Boolean isXls) throws OperException{
+	private String importWineByExcel (Orders orders,MultipartFile file,Boolean isXls) throws OperException{
 		StringBuilder xsdh = new StringBuilder();
 		//查询chu_user表，得到xs
 		ChuUser u = new ChuUser();
@@ -236,11 +235,12 @@ public class ImportService {
 		}
 		orders.setXsdh(xsdh.toString());
 		List<Orders> oList=getAddWineListByExcel(orders, file,isXls);
-		Boolean result = false;
 		for (Orders o:oList){
-			result = ordersDao.insertSelective(o)>0?true:false;
+			ordersDao.insertSelective(o);
 		}
-		return result;
+		u.setXs(u.getXs()+1);
+		chuUserDao.updateByPrimaryKeySelective(u);
+		return xsdh.toString();
 	}
 	
 	/**

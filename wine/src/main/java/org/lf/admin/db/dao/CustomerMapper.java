@@ -16,4 +16,6 @@ public interface CustomerMapper extends BaseMapper<Customer>{
     int updateByPrimaryKey(Customer record);
     
     Customer selectCustomerByUname (String uname);
+    
+    int getCount(Customer record);
 }

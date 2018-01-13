@@ -15,15 +15,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
    <form id="editCustomerForm">
    	<div>
-   		<table><tr><td style="height: 60px;"></td></tr></table>
+   		<table><tr><td style="height: 40px;"></td></tr></table>
    		<table>
-   			<tr><td style="width:140px;"></td><td style="text-align: right;">用户名:</td><td><input id="editCustomer_txbuname" name="uname"/></td><td></td></tr>
-   			<tr><td></td><td style="text-align: right;">姓&nbsp;&nbsp;&nbsp;名:</td><td><input id="editCustomer_txbname" name="name"/></td><td></td></tr>
-   			<tr><td></td><td style="text-align: right;">联系电话:</td><td><input id="editCustomer_txbphone" name="phone"/></td><td></td></tr>
-   			<tr><td></td><td>送货地址:</td><td><input id="editCustomer_txbaddress" name="address"/></td><td></td></tr>
+   			<tr><td style="width:120px;"></td><td style="text-align: right;">客户名称:</td><td style="padding-left: 10px;"><input id="editCustomer_txbuname" name="uname"/></td><td></td></tr>
+   			<tr><td></td><td style="text-align: right;">负责人:</td><td style="padding-left: 10px;"><input id="editCustomer_txbname" name="name"/></td><td></td></tr>
+   			<tr><td></td><td style="text-align: right;">联系电话:</td><td style="padding-left: 10px;"><input id="editCustomer_txbphone" name="phone"/></td><td></td></tr>
+   			<tr><td></td><td>送货地址:</td><td style="padding-left: 10px;"><input id="editCustomer_txbaddress" name="address"/></td><td></td></tr>
    		</table>
    		<table>
-   			<tr><td style="height: 40px;"></td></tr>
+   			<tr><td style="height: 20px;"></td></tr>
    			<tr><td style="width:140px;"></td><td style="width:100px; text-align:center;"><a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="editCustomer.insertCustomer()" href="#">确认</a></td><td style="width:100px; text-align:center;"><a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="editCustomer.cancel()" href="#">取消</a></td></tr>
    		</table>
    	</div>
@@ -68,20 +68,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#editCustomer_txbuname").textbox({
 		required: true,
 		value:"${customer.uname}",
-		disabled:true
+		disabled:true,
+		width: 200,
 	});
 	
 	$("#editCustomer_txbname").textbox({
 		value:"${customer.name}",
-		required: true
+		required: true,
+		width: 200,
 	});
 	
 	$("#editCustomer_txbphone").textbox({
-		value:"${customer.phone}"
+		value:"${customer.phone}",
+		width: 200,
 	});
 	
 	$("#editCustomer_txbaddress").textbox({
-		value:"${customer.address}"
+		value:"${customer.address}",
+		multiline:true,
+		width: 200,
+		height:60
 	});
 	
 	

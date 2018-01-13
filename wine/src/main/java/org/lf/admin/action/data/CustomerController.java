@@ -68,13 +68,13 @@ public class CustomerController extends BaseController{
 	@ResponseBody
 	public String editCustomer (Customer customer){
 		if (StringUtils.isEmpty(customer.getUname())){
-			return "用户名不能为空";
+			return "客户名称不能为空";
 		}
 		if (StringUtils.isEmpty(customer.getName())){
-			return "姓名不能为空";
+			return "负责人不能为空";
 		}
 		if (!checkCustomerByUname(customer.getUname()).equals(SUCCESS)){
-			return "该用户名已经存在，请换一个";
+			return "该用客户名称已经存在，请换一个";
 		}
 		if (customerService.editCustomer(customer)){
 			return SUCCESS;
@@ -89,17 +89,17 @@ public class CustomerController extends BaseController{
 		if (customer == null){
 			return SUCCESS;
 		}
-		return "该用户名已经存在，请换一个";
+		return "该客户名称已经存在，请换一个";
 	}
 	
 	@RequestMapping("addCustomer")
 	@ResponseBody
 	public String addCustomer (Customer customer){
 		if (StringUtils.isEmpty(customer.getUname())){
-			return "用户名不能为空";
+			return "客户名称不能为空";
 		}
 		if (StringUtils.isEmpty(customer.getName())){
-			return "用户姓名不能为空";
+			return "负责人不能为空";
 		}
 		if (customerService.addCustomer(customer)){
 			return SUCCESS;

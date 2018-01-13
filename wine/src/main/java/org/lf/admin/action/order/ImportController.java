@@ -2,6 +2,7 @@ package org.lf.admin.action.order;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.lf.admin.action.BaseController;
@@ -10,6 +11,7 @@ import org.lf.admin.db.pojo.Orders;
 import org.lf.admin.service.ChuUserType;
 import org.lf.admin.service.OperException;
 import org.lf.admin.service.order.ImportService;
+import org.lf.admin.service.order.ReportService;
 import org.lf.utils.EasyuiDatagrid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
  * @author  wenchen 
@@ -34,6 +37,9 @@ public class ImportController extends BaseController{
 	
 	@Autowired
 	private ImportService importService;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	@RequestMapping("importUI")
 	public String importUI (){
@@ -107,18 +113,25 @@ public class ImportController extends BaseController{
 	 */
 	@RequestMapping("importWine")
 	@ResponseBody
-	public String importWine (HttpSession session,Orders order,@RequestParam(value="file",required=true)MultipartFile file){
+	public JSONObject importWine (HttpSession session,HttpServletResponse response,Orders order,@RequestParam(value="file",required=true)MultipartFile file){
 		order.setKdr(getUname(session));
 		order.setDate(new Date());
+		JSONObject obj = new JSONObject();
 		try {
-			if (!importService.importWine(order, file)){
-				return "上传失败，请重试";
+			String xsdh = importService.importWine(order, file);
+			obj.put("xsdh", xsdh);
+			if (StringUtils.isEmpty(xsdh)){
+				obj.put("status", "上传失败，请重试");
+				return obj;
 			}
+			
 		} catch (OperException e) {
 			e.printStackTrace();
-			return e.getMessage();
+			obj.put("status", e.getMessage());
+			return obj;
 		}
-		return SUCCESS;
+		obj.put("status", SUCCESS);
+		return obj;
 	}
 	
 }

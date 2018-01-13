@@ -1,7 +1,6 @@
 package org.lf.admin.service.order;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +19,6 @@ import org.lf.utils.Mode;
 import org.lf.utils.PageNavigator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 
 /** 
  * @author  wenchen 
@@ -55,6 +51,9 @@ public class ReportService {
 		VOrder vorder = new VOrder();
 		vorder.setXsdh(xsdh);
 		List<VOrder> oList = vOrderDao.selectList(vorder);
+		if (oList==null){
+			return false;
+		}
 		Workbook wb = null;
 		try {
 			wb = ExportExcelUtils.createExcel(Mode.VERSION_H, oList, cdr);
@@ -67,15 +66,6 @@ public class ReportService {
 			is = true;
 		}
 		return is;
-	}
-	
-	private List<JSONObject> parseArray2List (JSONArray array){
-		List<JSONObject> oList = new ArrayList<JSONObject>();
-		for (int i=0;i<array.size();i++){
-			JSONObject obj = JSONObject.parseObject(array.get(i).toString());
-			oList.add(obj);
-		}
-		return oList;
 	}
 	
 	public EasyuiDatagrid<VOrder> getReportList (VOrder order,int page,int rows){

@@ -16,6 +16,23 @@
       AND UNAME=#{uname,jdbcType=VARCHAR}
     </if>
     <if test="name != null" >
+      AND NAME =#{name,jdbcType=VARCHAR}
+    </if>
+    <if test="phone != null" >
+      AND PHONE =#{phone,jdbcType=VARCHAR}
+    </if>
+    <if test="address != null" >
+      AND ADDRESS=#{address,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <sql id="query_selectiveFuzzy">
+  	<if test="id != null" >
+      AND ID=#{id,jdbcType=INTEGER}
+    </if>
+    <if test="uname != null" >
+      AND UNAME=#{uname,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null" >
       AND NAME LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
     </if>
     <if test="phone != null" >
@@ -111,18 +128,25 @@
   resultMap = "BaseResultMap">
   	select * from customer
   		<where>
-  			<include refid="query_selective"></include>
+  			<include refid="query_selectiveFuzzy"></include>
   		</where>
   </select>
   <select id="selectList" parameterType="org.lf.admin.db.pojo.Customer"
   resultMap = "BaseResultMap">
   	select * from customer
   		<where>
-  			<include refid="query_selective"></include>
+  			<include refid="query_selectiveFuzzy"></include>
   		</where>
   </select>
   <select id="selectCustomerByUname" parameterType="java.lang.String"
   resultMap = "BaseResultMap">
   	select * from customer where uname = #{uname,jdbcType=VARCHAR}
+  </select>
+  <select id="getCount" parameterType="org.lf.admin.db.pojo.Customer"
+  resultType="java.lang.Integer">
+  	select count(*) from customer
+  		<where>
+  			<include refid="query_selective"></include>
+  		</where>
   </select>
 </mapper>
