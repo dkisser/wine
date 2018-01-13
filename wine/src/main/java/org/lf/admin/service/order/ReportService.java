@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.lf.admin.db.dao.ChuUserMapper;
+import org.lf.admin.db.dao.VOrderMapper;
 import org.lf.admin.db.pojo.ChuUser;
+import org.lf.admin.db.pojo.VOrder;
 import org.lf.admin.service.OperErrCode;
 import org.lf.admin.service.OperException;
 import org.lf.utils.ExcelFileUtils;
@@ -34,21 +36,26 @@ public class ReportService {
 	@Autowired
 	private ChuUserMapper chuUserDao;
 	
+	@Autowired
+	private VOrderMapper vOrderDao;
+	
 	/**
 	 * 导出Excel表
 	 * @param list
 	 * @return
 	 * @throws OperException 
 	 */
-	public boolean exprotExcel (String list,String cdr,HttpServletResponse response) throws OperException{
+	public boolean exprotExcel (String xsdh,String cdr,HttpServletResponse response) throws OperException{
 		Boolean is = false;
-		JSONArray array = JSONArray.parseArray(list);
 		ChuUser record = new ChuUser();
 		record.setUname(cdr);
 		cdr=chuUserDao.select(record).getName();
+		VOrder vorder = new VOrder();
+		vorder.setXsdh(xsdh);
+		List<VOrder> oList = vOrderDao.selectList(vorder);
 		Workbook wb = null;
 		try {
-			wb = ExportExcelUtils.createExcel(Mode.VERSION_H, parseArray2List(array), cdr);
+			wb = ExportExcelUtils.createExcel(Mode.VERSION_H, oList, cdr);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new OperException(生成Excel失败);

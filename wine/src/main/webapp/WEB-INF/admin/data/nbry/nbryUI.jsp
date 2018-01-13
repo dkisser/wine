@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			Nbry_newAdd.appendTo("body");
 			$("#Nbry_newAdd").dialog ({
 				href: getContextPath() + "/data/addNbryUI",
-				title: "新增酒品信息",
+				title: "新增内部人员",
 				width: 512,
 				height: 300,
 				inline: true,
@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			Nbry_newEdit.appendTo("body");
 			$("#Nbry_newEdit").dialog ({
 				href: getContextPath() + "/data/editNbryUI?id="+row.id,
-				title: "修改客户信息",
+				title: "修改内部人员信息",
 				width: 512,
 				height: 300,
 				inline: true,

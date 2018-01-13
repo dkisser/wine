@@ -14,9 +14,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
    <form id="addOrderForm">
-   		<table><tr><td style="height: 40px;"></td></tr></table>
+   		<table><tr><td style="height: 30px;"></td></tr></table>
    		<table>
    			<tr><td style="width:120px;"></td><td style="text-align: right;">条形码:</td><td><input id="addOrder_txbtxm" name="txm"/></td><td></td></tr>
+   			<tr><td></td><td style="text-align: right;">销售单号:</td><td><input id="addOrder_txbxsdh" name="xsdh"/></td><td></td></tr>
    			<tr><td></td><td style="text-align: right;">酒品种:</td><td><input id="addOrder_txbwineId" name="wineName"/></td><td></td></tr>
    			<tr><td></td><td style="text-align: right;">业务员:</td><td><input id="addOrder_txbywy" name="ywyName"/></td><td></td></tr>
    			<tr><td></td><td style="text-align: right;">送货员:</td><td><input id="addOrder_txbshy" name="shyName"/></td><td></td></tr>
@@ -24,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		</table>
    </form>
    		<table>
-   			<tr><td style="height: 40px;"></td></tr>
+   			<tr><td style="height: 20px;"></td></tr>
    			<tr><td style="width:140px;"></td><td style="width:100px; text-align:center;"><a id="importBtn" onclick="addOrder.addOrder()">确认</a></td><td style="width:100px; text-align:center;"><a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="addOrder.cancel()" href="#">取消</a></td></tr>
    		</table>
 <script type="text/javascript">
@@ -56,6 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$("#addOrder_txbfile").textbox("clear");
 						$("#Query_newAdd").dialog("close");
 						$.messager.alert("提示","添加成功","info");
+						$("#dgQueryList").datagrid("reload");
 					} else {
 						$.messager.alert("提示",result,"info");
 					}
@@ -87,6 +89,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
 	$("#addOrder_txbtxm").numberbox({
+		width: 200,
+		required: true
+	});
+	
+	$("#addOrder_txbxsdh").textbox({
 		width: 200,
 		required: true
 	});

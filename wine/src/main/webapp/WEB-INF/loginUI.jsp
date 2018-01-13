@@ -41,8 +41,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        }
        .headimg{
        		margin: auto;
-       		width: 50px;
-       		height:50px;
+       		width: 100px;
+       		height:100px;
        		padding-top: 30px;
        		
        }
@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		width: 300px;
        		margin: auto;
        		padding-left: 50px;
-       		margin-top: 60px;
+       		margin-top: 30px;
        		color:#f99;
        		font-size: 20px;
        }
@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        }
        .loginbutton{
        		margin:auto;
-       		margin-top:50px;
+       		margin-top:30px;
        		width:100px;
        		height: 30px;
        		font-size: 20px;
@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	<div class='container'>
    	<form id="loginForm">
         <div class='login_glass yuanjiao touming2'>
-       		<div class='headimg'><img src="${pageContext.servletContext.contextPath }/images/home/liandao.png" width="50px" height="50"></div>
+       		<div class='headimg'><img src="${pageContext.servletContext.contextPath }/images/home/baiyunbian.jpg" width="100px" height="100"></div>
         	<div class='headtext'>管理员登录</div>
         	<div class='loginitemdiv'>
         		<div style="margin-bottom: 20px;">账号：<input name="uname" class="loginitem yuanjiao"></div>

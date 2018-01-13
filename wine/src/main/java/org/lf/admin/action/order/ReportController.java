@@ -59,9 +59,9 @@ public class ReportController extends BaseController{
 	
 	@RequestMapping(value="exportExcel")
 	@ResponseBody
-	public String exportExcel (HttpSession session,HttpServletResponse response,@RequestParam(value="list",required=true)String list){
+	public String exportExcel (HttpSession session,HttpServletResponse response,@RequestParam(value="xsdh",required=true)String xsdh){
 		try {
-			if (!reportService.exprotExcel(list,getUname(session),response)){
+			if (!reportService.exprotExcel(xsdh,getUname(session),response)){
 				return "导出失败,请重试";
 			}
 		} catch (OperException e) {

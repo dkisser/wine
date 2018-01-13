@@ -28,10 +28,12 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.lf.admin.db.dao.VOrderMapper;
+import org.lf.admin.db.pojo.VOrder;
 import org.lf.admin.service.OperErrCode;
 import org.lf.admin.service.OperException;
-
-import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /** 
  * @author  wenchen 
@@ -39,7 +41,11 @@ import com.alibaba.fastjson.JSONObject;
  * @version 1.0 
  * @parameter
  */
+@Service
 public class ExportExcelUtils {
+	
+	@Autowired
+	private VOrderMapper vOrderDao;
 	
 	private static final OperErrCode 生成Excel出错 = new OperErrCode("002003002", "生成Excel出错");
 	
@@ -51,7 +57,7 @@ public class ExportExcelUtils {
 	 * @throws IOException
 	 * @throws OperException 
 	 */
-	public static Workbook createExcel (int mode,List<JSONObject> list,String cdr) throws IOException, OperException{
+	public static Workbook createExcel (int mode,List<VOrder> list,String cdr) throws IOException, OperException{
 		Workbook workBook = null;
         if (Mode.VERSION_H == mode){
             workBook = new HSSFWorkbook();
@@ -194,7 +200,7 @@ public class ExportExcelUtils {
     }
 
     //创建第二行
-    private static void createSecondRow(Sheet sheet,Workbook workBook,JSONObject obj){
+    private static void createSecondRow(Sheet sheet,Workbook workBook,VOrder obj){
     	  
         //合并单元格
         sheet.addMergedRegion(new CellRangeAddress(2,2,0,3));
@@ -234,17 +240,17 @@ public class ExportExcelUtils {
         for(int i=0;i<15;i++){
         	Cell cel = row3.createCell(i);
         	if (i==0){
-        		cel.setCellValue(obj.getString("shz"));
+        		cel.setCellValue(obj.getShz());
         		cel.setCellStyle(getLeftBorder(style));
         	} else if (i==3){
         		cel.setCellStyle(getRightBorder(style));
         	}else if (i==4){
-        		cel.setCellValue(obj.getString("khdh"));
+        		cel.setCellValue(obj.getKhdh());
         		cel.setCellStyle(getCenterBorder(style));
         	} else if (i==7){
         		cel.setCellStyle(getRightBorder(style));
         	}else if (i==8){
-        		cel.setCellValue(obj.getString("shdz"));
+        		cel.setCellValue(obj.getShdz());
         		cel.setCellStyle(getCenterBorder(style));
         	} else if (i==14){
         		cel.setCellStyle(getRightBorder(style));
@@ -257,7 +263,7 @@ public class ExportExcelUtils {
     }
     
     //创建第三行
-    private static void createThridRow(Sheet sheet, Workbook workBook,List<JSONObject> list,String cdr) throws OperException{
+    private static void createThridRow(Sheet sheet, Workbook workBook,List<VOrder> list,String cdr) throws OperException{
     	//单元格合并
         sheet.addMergedRegion(new CellRangeAddress(5,5,0,3));
         sheet.addMergedRegion(new CellRangeAddress(5,5,4,5));
@@ -275,7 +281,7 @@ public class ExportExcelUtils {
         Row row4 = sheet.createRow(6);
         row4.setHeightInPoints(24);
         CellStyle cellStyle = getCenter11Font(workBook);
-        JSONObject obj = list.get(0);
+        VOrder obj = list.get(0);
         for(int i=0;i<15;i++){
         	Cell cel = row3.createCell(i);
         	if (i==0){
@@ -314,17 +320,17 @@ public class ExportExcelUtils {
         for(int i=0;i<15;i++){
         	Cell cel = row4.createCell(i);
         	if (i==0){
-        		cel.setCellValue(obj.getString("ywy"));
+        		cel.setCellValue(obj.getYwy());
         		cel.setCellStyle(getLeftBorder(cellStyle));
         	} else if (i==3){
         		cel.setCellStyle(getRightBorder(cellStyle));
         	}else if (i==4){
-        		cel.setCellValue(obj.getString("shy"));
+        		cel.setCellValue(obj.getShy());
         		cel.setCellStyle(getCenterBorder(cellStyle));
         	} else if (i==5){
         		cel.setCellStyle(getRightBorder(cellStyle));
         	} else if (i==6){
-        		cel.setCellValue(obj.getString("xsdh"));
+        		cel.setCellValue(obj.getXsdh());
         		cel.setCellStyle(getCenterBorder(cellStyle));
         	} else if (i==9){
         		cel.setCellStyle(getRightBorder(cellStyle));
@@ -353,7 +359,7 @@ public class ExportExcelUtils {
     }
     
     //中间打印条形码的部分
-  	private static void createTable (Sheet sheet,Workbook workBook,List<JSONObject> list){
+  	private static void createTable (Sheet sheet,Workbook workBook,List<VOrder> list){
   		CellStyle allStyle = getAllBorder(getCenter11Font(workBook));
   		CellStyle rightStyle = getRightBorder(getCenter11Font(workBook));
   		for (int i=8;i<28;i++){
@@ -380,37 +386,37 @@ public class ExportExcelUtils {
   			if (list.size()-5*i>5){
   				//打印5*i-5*i+5的值
   				Cell cel1 = row.getCell(1);
-  				cel1.setCellValue(list.get(i*5).getString("txm"));
+  				cel1.setCellValue(list.get(i*5).getTxm());
   				Cell cel2 = row.getCell(4);
-  				cel2.setCellValue(list.get(i*5+1).getString("txm"));
+  				cel2.setCellValue(list.get(i*5+1).getTxm());
   				Cell cel3 = row.getCell(7);
-  				cel3.setCellValue(list.get(i*5+2).getString("txm"));
+  				cel3.setCellValue(list.get(i*5+2).getTxm());
   				Cell cel4 = row.getCell(10);
-  				cel4.setCellValue(list.get(i*5+3).getString("txm"));
+  				cel4.setCellValue(list.get(i*5+3).getTxm());
   				Cell cel5 = row.getCell(13);
-  				cel5.setCellValue(list.get(i*5+4).getString("txm"));
+  				cel5.setCellValue(list.get(i*5+4).getTxm());
   			} else {
   				//打印5*i到list。size（）的值
   				int num = list.size()-5*i;
   				if (num>0){
   					Cell cel1 = row.getCell(1);
-  	  				cel1.setCellValue(list.get(i*5).getString("txm"));
+  	  				cel1.setCellValue(list.get(i*5).getTxm());
   				}
   				if (num>1){
   					Cell cel2 = row.getCell(4);
-  	  				cel2.setCellValue(list.get(i*5+1).getString("txm"));
+  	  				cel2.setCellValue(list.get(i*5+1).getTxm());
   				}
   				if (num>2){
   					Cell cel3 = row.getCell(7);
-  	  				cel3.setCellValue(list.get(i*5+2).getString("txm"));
+  	  				cel3.setCellValue(list.get(i*5+2).getTxm());
   				}
   				if (num>3){
   					Cell cel4 = row.getCell(10);
-  	  				cel4.setCellValue(list.get(i*5+3).getString("txm"));
+  	  				cel4.setCellValue(list.get(i*5+3).getTxm());
   				}
   				if (num>4){
   					Cell cel5 = row.getCell(13);
-  	  				cel5.setCellValue(list.get(i*5+4).getString("txm"));
+  	  				cel5.setCellValue(list.get(i*5+4).getTxm());
   				}
   			}
   		}

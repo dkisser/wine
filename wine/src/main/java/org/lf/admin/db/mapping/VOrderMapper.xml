@@ -243,4 +243,12 @@
   			<include refid="query_selectiveFuzzy"></include>
   		</where>
   </select>
+  <select id="getVOrderList" parameterType="org.lf.admin.db.pojo.VOrder"
+  resultMap="BaseResultMap">
+  	select * from v_order
+  		<where>
+  			<include refid="query_selectiveFuzzy"></include>
+  		</where>
+  		group by xsdh
+  </select>
 </mapper>

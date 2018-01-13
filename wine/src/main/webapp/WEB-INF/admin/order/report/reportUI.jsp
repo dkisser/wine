@@ -18,7 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div style="height: 100%;float: left;">
 	      <div style="float: left;">
 	      	<form id="printForm" method="POST"><input type="hidden" name="randomInfo" value="<%=Math.random()%>"/></form>
-	      	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="report.print()">打印</a>
 	      </div>
 	    </div>
 	    <div style="height: 100%;float: right;">
@@ -41,19 +40,16 @@ function FormatDate(date) {
 }
 
 	var report = {
-		print:function (){
-			$.messager.confirm("提示","您确定要打印选中的"+$("#dgPrintList").datagrid("getChecked").length+"件商品吗？",function(sure){
+		print:function (index){
+			$.messager.confirm("提示","您确定要打印选中这单商品吗？",function(sure){
 				if (sure){
+					var row = $("#dgPrintList").datagrid("getData").rows[index];
 					$("#printForm").form("submit",{
 						url:getContextPath() +"/order/exportExcel",
 						onSubmit: function(param){
-							if (!$("#dgPrintList").datagrid("getChecked").length>0){
-								$.messager.alert("提示","请至少选择一件商品来打印","info");
-								return false;
-							}
-							param.list = JSON.stringify($("#dgPrintList").datagrid("getChecked"));
+							param.xsdh = row.xsdh;
 						}, 
-						success: function(res){
+						onSuccess: function(res){
 		 					if(res != "success"){
 		 						$.messager.alert('失败',data,'warning');
 		 					}
@@ -126,12 +122,7 @@ function FormatDate(date) {
 		pageSize:100,
 		pageList:['100'],
 		columns: [[
-		           {	
-		        	  field:"check",
-		        	  width: "4%",
-		        	  checkbox:true,
-		        	  resizable: false
-		           },{
+		           {
 		        	  width: "20%",
 		        	  title: "销售单号",
 		        	  field: "xsdh",
@@ -141,7 +132,7 @@ function FormatDate(date) {
 		        		  return "<span class='tooltips' title='"+row.xsdh+"'>"+value+"</spans>";
 		        	  }
 		           },{
-		        	  width: "19%",
+		        	  width: "17%",
 		        	  title: "商品名",
 			          field: "wineMc",
 			          align: "center",
@@ -174,15 +165,29 @@ function FormatDate(date) {
 				      align: "center",
 				      resizable: false
 			       },{
-		        	  width: "15%",
+		        	  width: "16%",
 			          title: "客户电话",
 				      field: "khdh",
 				      align: "center",
 				      resizable: false
+			       },{
+			    	  width: "4%",
+			          title: "操作",
+				      field: "opt",
+				      align: "center",
+				      resizable: false,
+				      formatter:function(value,row,index){
+				    	  return "<a href='#' class='editBtn tooltips' title='打印'  onclick='report.print("+index+")'></a>";
+				      }
 			       }
 		           ]],
 		           onLoadSuccess: function () {
 		        	 
+		        	 $('.editBtn').linkbutton({
+		        		 iconCls:'icon-save',
+		        		 height:24
+		        	 });
+		        	   
 		        	 $('.tooltips').tooltip({    
 		        		 onShow: function(){        
 		        			 $(this).tooltip('tip').css({            
