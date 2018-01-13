@@ -13,9 +13,11 @@ import org.lf.admin.db.pojo.ChuUser;
 import org.lf.admin.db.pojo.VOrder;
 import org.lf.admin.service.OperErrCode;
 import org.lf.admin.service.OperException;
+import org.lf.utils.EasyuiDatagrid;
 import org.lf.utils.ExcelFileUtils;
 import org.lf.utils.ExportExcelUtils;
 import org.lf.utils.Mode;
+import org.lf.utils.PageNavigator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +76,12 @@ public class ReportService {
 			oList.add(obj);
 		}
 		return oList;
+	}
+	
+	public EasyuiDatagrid<VOrder> getReportList (VOrder order,int page,int rows){
+		List<VOrder> voList = vOrderDao.getVOrderList(order);
+		PageNavigator<VOrder> pg = new PageNavigator<>(voList, rows);
+		return new EasyuiDatagrid<>(pg.getPage(page), voList.size());
 	}
 	
 }

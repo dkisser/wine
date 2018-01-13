@@ -54,7 +54,7 @@ public class ReportController extends BaseController{
 			e.printStackTrace();
 			return null;
 		}
-		return queryService.getVOrderList(order,page,rows);
+		return reportService.getReportList(order, page, rows);
 	}
 	
 	@RequestMapping(value="exportExcel")

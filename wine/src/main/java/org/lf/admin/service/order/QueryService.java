@@ -34,7 +34,7 @@ public class QueryService {
 	 * @return
 	 */
 	public EasyuiDatagrid<VOrder> getVOrderList (VOrder order,int page,int rows){
-		List<VOrder> voList = vorderDao.getVOrderList(order);
+		List<VOrder> voList = vorderDao.selectListFuzzy(order);
 		PageNavigator<VOrder> pg = new PageNavigator<>(voList, rows);
 		return new EasyuiDatagrid<>(pg.getPage(page), voList.size());
 	}
