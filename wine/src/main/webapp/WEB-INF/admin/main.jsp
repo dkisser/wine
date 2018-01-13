@@ -77,7 +77,7 @@ a{text-decoration: none;color: #eee}
                      </ul>
                  </div>
             </div> 
-            <div class="menu" style="width:100%;height:32px;background:url(../images/main/nav.png);border:none">   
+            <div class="menu" style="width:100%;height:32px;background:url(../images/main/nav.png);background-repeat: repeat-x;border:none">   
 
         	</div>
         </div>
