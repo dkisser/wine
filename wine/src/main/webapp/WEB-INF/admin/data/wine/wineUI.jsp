@@ -207,6 +207,12 @@ function FormatDate(date) {
 				      align: "center",
 				      resizable: false,
 				      formatter: function (value,row,index) {
+				    	  var result="<a class='editCusBtn' onclick='Wine.edit("+index+")'>修改</a>";
+				    	  var status = "${sessionScope.loginInfo.role}";
+				    	  if (status==2){
+				    	  	return result+="&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Wine.del("+index+")'>删除</a>";
+				    	  }
+				    	  return result;
 				    	  return "<a class='editCusBtn' onclick='Wine.edit("+index+")'>修改</a>&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Wine.del("+index+")'>删除</a>";
 				      }
 				   }

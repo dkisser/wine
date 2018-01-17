@@ -186,6 +186,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				      align: "center",
 				      resizable: false,
 				      formatter: function (value,row,index) {
+				    	  var result="<a class='editCusBtn' onclick='Customer.edit("+index+")'>修改</a>";
+				    	  var status = "${sessionScope.loginInfo.role}";
+				    	  if (status==2){
+				    	  	return result+="&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Customer.del("+index+")'>删除</a>";
+				    	  }
+				    	  return result;
 				    	  return "<a class='editCusBtn' onclick='Customer.edit("+index+")'>修改</a>&nbsp;&nbsp;&nbsp;<a class='delCusBtn' onclick='Customer.del("+index+")'>删除</a>";
 				      }
 				   }

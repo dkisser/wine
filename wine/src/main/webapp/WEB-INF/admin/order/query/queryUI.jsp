@@ -218,6 +218,12 @@ function FormatDate(date) {
 				      align: "center",
 				      resizable: false,
 				      formatter: function (value,row,index) {
+				    	  var status = "${sessionScope.loginInfo.role}";
+				    	  if (status==2){
+				    	  	return "<a class='delCusBtn' onclick='Query.del("+index+")'>删除</a>";
+				    	  } else {
+				    		  return "";
+				    	  }
 				    	  return "<a class='delCusBtn' onclick='Query.del("+index+")'>删除</a>";
 				      }
 				   }
