@@ -109,7 +109,7 @@ function FormatDate(date) {
 		}
 	});
 		
-	$("#txbQueryTxm").numberbox({
+	$("#txbQueryTxm").textbox({
 		 width: 200,
 		 buttonText:'Search',   
 		 iconAlign:'right',
