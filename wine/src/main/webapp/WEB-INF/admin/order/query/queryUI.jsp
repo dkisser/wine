@@ -109,7 +109,7 @@ function FormatDate(date) {
 		}
 	});
 		
-	$("#txbQueryTxm").numberbox({
+	$("#txbQueryTxm").textbox({
 		 width: 200,
 		 buttonText:'Search',   
 		 iconAlign:'right',
@@ -159,19 +159,14 @@ function FormatDate(date) {
 		        	  title: "销售单号",
 		        	  field: "xsdh",
 		        	  align: "center",
-		        	  resizable: false,
-		        	  formatter:function (value,row,index){
-		        		  return "<span class='tooltips' title='"+row.xsdh+"'>..."+value.substring(8)+"</spans>";
-		        	  }
+		        	  resizable: true,
+		        	  
 		           },{
 		        	  width: "12%",
 		        	  title: "条形码",
 		        	  field: "txm",
 		        	  align: "center",
-		        	  resizable: false,
-		        	  formatter:function (value,row,index){
-		        		  return "<span class='tooltips' title='"+row.txm+"'>"+value.substring(0,value.length-8)+"..."+"</span>";
-		        	  }
+		        	  resizable: true,
 		           },{
 		        	  width: "15%",
 		        	  title: "商品名",
