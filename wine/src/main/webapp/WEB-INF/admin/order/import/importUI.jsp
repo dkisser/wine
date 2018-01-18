@@ -49,9 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					param.shz = $("#importWine_txbshr").attr("shr");
 				},
 				success:function (result) {
-					alert(result);
 					result = eval("("+result+")");
-					alert(result);
 					$.messager.progress("close");
 					if (result.status == "success") {
 						$("#importWine_txbwineId").textbox("clear");
@@ -62,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$.messager.alert("提示"," 上传成功","info");
 						//下载请求
 						$("#printForm").form("submit",{
-							url:getContextPath() +"/order/exportExcel",
+							url:getContextPath() +"/order/exportExcel2",
 							onSubmit: function(param){
 								param.xsdh = result.xsdh;
 							}, 

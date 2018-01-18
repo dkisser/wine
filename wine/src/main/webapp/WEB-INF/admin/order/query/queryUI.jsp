@@ -98,7 +98,7 @@ function FormatDate(date) {
 	
 	$("#dlgQueryMain").dialog({
 		title : '订单管理',
-		width : 1024,
+		width : 1224,
 		height : 600,
 		closed : false,
 		cache : false,
@@ -159,14 +159,14 @@ function FormatDate(date) {
 		        	  title: "销售单号",
 		        	  field: "xsdh",
 		        	  align: "center",
-		        	  resizable: true,
+		        	  resizable: false,
 		        	  
 		           },{
 		        	  width: "12%",
 		        	  title: "条形码",
 		        	  field: "txm",
 		        	  align: "center",
-		        	  resizable: true,
+		        	  resizable: false,
 		           },{
 		        	  width: "15%",
 		        	  title: "商品名",

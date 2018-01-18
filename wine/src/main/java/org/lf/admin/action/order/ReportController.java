@@ -71,4 +71,18 @@ public class ReportController extends BaseController{
 		return SUCCESS;
 	}
 	
+	@RequestMapping(value="exportExcel2")
+	@ResponseBody
+	public String exportExcel2 (HttpSession session,HttpServletResponse response,@RequestParam(value="xsdh",required=true)String xsdh){
+		try {
+			if (!reportService.exprotExcel2(session,xsdh,getUname(session),response)){
+				return "导出失败,请重试";
+			}
+		} catch (OperException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return SUCCESS;
+	}
+	
 }

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -59,13 +60,16 @@ public class ExportExcelUtils {
 	 * @throws OperException 
 	 */
 	public static Workbook createExcel (int mode,List<VOrder> list,String cdr) throws IOException, OperException{
+		if (list.size()==0){
+			throw new OperException(生成Excel出错);
+		}
 		Workbook workBook = null;
         if (Mode.VERSION_H == mode){
             workBook = new HSSFWorkbook();
         }else if (Mode.VERSION_L == mode){
             workBook = new XSSFWorkbook();
         }else {
-            workBook = new HSSFWorkbook();
+            workBook = new HSSFWorkbook();	
         }
 		//若是oList大于100的情况
 		if (list.size()>100){
@@ -126,6 +130,77 @@ public class ExportExcelUtils {
         
        return workBook;
 	}
+	
+	/**
+	 * 获得服务器上的excel表格来，填充数据，然后生成新的excel
+	 * @param mode
+	 * @param list
+	 * @param cdr
+	 * @return
+	 * @throws IOException
+	 * @throws OperException
+	 */
+	public static Workbook exportExcel (HttpSession session,int mode,List<VOrder> list,String cdr) throws IOException, OperException{
+		if (list.size()==0){
+			throw new OperException(生成Excel出错);
+		}
+		String fileName = "湖北白云边酒业产品溯源单 .xlsx";
+		//获得文件的InputStream
+		InputStream in = ExportExcelUtils.class.getResourceAsStream("/"+fileName);
+		//从服务器上获得Excel,并读入Workbook中
+		Workbook workBook = null;
+        if (Mode.VERSION_H == mode){
+            workBook = new HSSFWorkbook(in);
+        }else if (Mode.VERSION_L == mode){
+            workBook = new XSSFWorkbook(in);
+        }else {
+            workBook = new HSSFWorkbook(in);	
+        }
+		//若是oList大于100的情况
+		if (list.size()>100){
+			int num = list.size()%100==0?list.size()/100:list.size()/100+1;
+			int rest= list.size();
+			Sheet origin = workBook.getSheetAt(0);
+			for (int i=0;i<num;i++){
+				//创建工作簿
+				Sheet sheet = null;
+				if (i==0){
+					sheet = origin;
+				} else {
+					sheet = workBook.createSheet();
+					CopySheetUtils.copySheets(sheet, origin,true);
+					insertPic(sheet, workBook, 2, 0);
+				} 
+				
+				//填充第二行
+				List<VOrder> oList = null;
+				if (rest-i*100>=0){
+					oList = new ArrayList<VOrder>(list.subList(i*100, i*100+100));
+					rest-=100;
+				} else {
+					oList = new ArrayList<VOrder>(list.subList(i*100, i*100+rest));
+				}
+				setSecondRow(sheet, workBook,oList.get(0));
+				//填充第三行
+				setThridRow(sheet, workBook,oList,cdr);
+				//填充中间打印条形码的部分
+				setTable(sheet, workBook,oList);
+			}
+		} else {
+			//若是oList.size()小于100的情况
+			//获得工作簿
+			Sheet sheet = workBook.getSheetAt(0);
+			//填充第二行
+			setSecondRow(sheet, workBook,list.get(0));
+			//填充第三行
+			setThridRow(sheet, workBook,list,cdr);
+			//填充中间打印条形码的部分
+			setTable(sheet, workBook,list);
+		}
+        
+       return workBook;
+	} 
+	
 	
 	//设置列宽
 	private static void setSheetWidth (Sheet sheet){
@@ -190,6 +265,27 @@ public class ExportExcelUtils {
         return byteArrayOut;
     }
     
+    private static void insertPic (Sheet sheet, Workbook workBook,int col1,int row1) throws IOException{
+    	int pictureIdx = workBook.addPicture(getImageInputStream().toByteArray(), Workbook.PICTURE_TYPE_JPEG);
+        CreationHelper helper = workBook.getCreationHelper();
+        Drawing drawing = sheet.createDrawingPatriarch();
+        ClientAnchor anchor = helper.createClientAnchor();
+        anchor.setCol1(col1);
+        anchor.setRow1(row1);
+        Picture picture = drawing.createPicture(anchor, pictureIdx);
+        picture.resize();
+    }
+    
+    private static void insertPicDes (Sheet sheet, Workbook workBook,int col1,int row1) throws IOException{
+    	int pictureIdx = workBook.addPicture(getImageInputStream().toByteArray(), Workbook.PICTURE_TYPE_JPEG);
+    	CreationHelper helper = workBook.getCreationHelper();
+    	Drawing drawing = sheet.createDrawingPatriarch();
+    	ClientAnchor anchor = helper.createClientAnchor();
+    	anchor.setDx1(col1);
+    	anchor.setDy1(row1);
+    	Picture picture = drawing.createPicture(anchor, pictureIdx);
+    	picture.resize();
+    }
     
     //创建第一行
     private static void createFirstRow(Sheet sheet, Workbook workBook) throws IOException {
@@ -202,14 +298,7 @@ public class ExportExcelUtils {
         row1.setHeightInPoints(28);
         row2.setHeightInPoints(28);
         //图片
-        int pictureIdx = workBook.addPicture(getImageInputStream().toByteArray(), Workbook.PICTURE_TYPE_JPEG);
-        CreationHelper helper = workBook.getCreationHelper();
-        Drawing drawing = sheet.createDrawingPatriarch();
-        ClientAnchor anchor = helper.createClientAnchor();
-        anchor.setCol1(3);
-        anchor.setRow1(0);
-        Picture picture = drawing.createPicture(anchor, pictureIdx);
-        picture.resize();
+        insertPic(sheet, workBook, 3, 0);
         
         for (int i=0;i<15;i++){
         	Cell cel = row1.createCell(i);
@@ -235,7 +324,26 @@ public class ExportExcelUtils {
         cellStyleFirst.setDataFormat(format.getFormat("m/d/yy h:mm"));
         return cellStyleFirst;
     }
-
+    
+    //填充第二行的数据
+    private static void setSecondRow(Sheet sheet,Workbook workBook,VOrder obj){
+        Row row3 = sheet.getRow(3);
+        for(int i=0;i<15;i++){
+        	Cell cel = row3.getCell(i);
+        	if (i==0){
+        		cel.setCellValue(obj.getShz());
+        	}
+        	if (i==4){
+        		cel.setCellValue(obj.getKhdh());
+        	}
+        	if (i==8){
+        		cel.setCellValue(obj.getShdz());
+        	}
+        }
+      
+        
+    }
+    
     //创建第二行
     private static void createSecondRow(Sheet sheet,Workbook workBook,VOrder obj){
     	  
@@ -299,103 +407,172 @@ public class ExportExcelUtils {
         
     }
     
-    //创建第三行
-    private static void createThridRow(Sheet sheet, Workbook workBook,List<VOrder> list,String cdr) throws OperException{
-    	//单元格合并
-        sheet.addMergedRegion(new CellRangeAddress(5,5,0,3));
-        sheet.addMergedRegion(new CellRangeAddress(5,5,4,5));
-        sheet.addMergedRegion(new CellRangeAddress(5,5,6,9));
-        sheet.addMergedRegion(new CellRangeAddress(5,5,11,12));
-        sheet.addMergedRegion(new CellRangeAddress(5,5,13,14));
-        sheet.addMergedRegion(new CellRangeAddress(6,6,0,3));
-        sheet.addMergedRegion(new CellRangeAddress(6,6,4,5));
-        sheet.addMergedRegion(new CellRangeAddress(6,6,6,9));
-        sheet.addMergedRegion(new CellRangeAddress(6,6,11,12));
-        sheet.addMergedRegion(new CellRangeAddress(6,6,13,14));
-        
-        Row row3 = sheet.createRow(5);
-        row3.setHeightInPoints(20);
-        Row row4 = sheet.createRow(6);
-        row4.setHeightInPoints(24);
-        CellStyle cellStyle = getCenter11Font(workBook);
+    //填充第三行
+    private static void setThridRow(Sheet sheet, Workbook workBook,List<VOrder> list,String cdr) throws OperException{
+        Row row4 = sheet.getRow(6);
         VOrder obj = list.get(0);
         for(int i=0;i<15;i++){
-        	Cell cel = row3.createCell(i);
-        	if (i==0){
-        		cel.setCellValue("此单负责业务员");
-        		cel.setCellStyle(getLeftBorder(cellStyle));
-        	} else if (i==3){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==4){
-        		cel.setCellValue("送货人");
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==5){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	} else if (i==6){
-        		cel.setCellValue("销售单号");
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==9){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==10){
-        		cel.setCellValue("出单日期");
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==11){
-        		cel.setCellValue("件数");
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==12){
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==13){
-        		cel.setCellValue("出单人");
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==14){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	} else {
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	}
-        }
-        
-        for(int i=0;i<15;i++){
-        	Cell cel = row4.createCell(i);
+        	Cell cel = row4.getCell(i);
         	if (i==0){
         		cel.setCellValue(obj.getYwy());
-        		cel.setCellStyle(getLeftBorder(cellStyle));
-        	} else if (i==3){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==4){
+        	} else if (i==4){
         		cel.setCellValue(obj.getShy());
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==5){
-        		cel.setCellStyle(getRightBorder(cellStyle));
         	} else if (i==6){
         		cel.setCellValue(obj.getXsdh());
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==9){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==10){
+        	} else if (i==10){
         		try {
 					cel.setCellValue(DateUtils.date2Str(new Date()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 					throw new OperException(生成Excel出错);
 				}
-        		cel.setCellStyle(getCenterBorder(cellStyle));
         	} else if (i==11){
         		cel.setCellValue(list.size());
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	}else if (i==12){
-        		cel.setCellStyle(getCenterBorder(cellStyle));
         	} else if (i==13){
         		cel.setCellValue(cdr);
-        		cel.setCellStyle(getCenterBorder(cellStyle));
-        	} else if (i==14){
-        		cel.setCellStyle(getRightBorder(cellStyle));
-        	} else {
-        		cel.setCellStyle(getCenterBorder(cellStyle));
         	}
         }
     }
+    //创建第三行
+    private static void createThridRow(Sheet sheet, Workbook workBook,List<VOrder> list,String cdr) throws OperException{
+    	//单元格合并
+    	sheet.addMergedRegion(new CellRangeAddress(5,5,0,3));
+    	sheet.addMergedRegion(new CellRangeAddress(5,5,4,5));
+    	sheet.addMergedRegion(new CellRangeAddress(5,5,6,9));
+    	sheet.addMergedRegion(new CellRangeAddress(5,5,11,12));
+    	sheet.addMergedRegion(new CellRangeAddress(5,5,13,14));
+    	sheet.addMergedRegion(new CellRangeAddress(6,6,0,3));
+    	sheet.addMergedRegion(new CellRangeAddress(6,6,4,5));
+    	sheet.addMergedRegion(new CellRangeAddress(6,6,6,9));
+    	sheet.addMergedRegion(new CellRangeAddress(6,6,11,12));
+    	sheet.addMergedRegion(new CellRangeAddress(6,6,13,14));
+    	
+    	Row row3 = sheet.createRow(5);
+    	row3.setHeightInPoints(20);
+    	Row row4 = sheet.createRow(6);
+    	row4.setHeightInPoints(24);
+    	CellStyle cellStyle = getCenter11Font(workBook);
+    	VOrder obj = list.get(0);
+    	for(int i=0;i<15;i++){
+    		Cell cel = row3.createCell(i);
+    		if (i==0){
+    			cel.setCellValue("此单负责业务员");
+    			cel.setCellStyle(getLeftBorder(cellStyle));
+    		} else if (i==3){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==4){
+    			cel.setCellValue("送货人");
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==5){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		} else if (i==6){
+    			cel.setCellValue("销售单号");
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==9){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==10){
+    			cel.setCellValue("出单日期");
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==11){
+    			cel.setCellValue("件数");
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==12){
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==13){
+    			cel.setCellValue("出单人");
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==14){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		} else {
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		}
+    	}
+    	
+    	for(int i=0;i<15;i++){
+    		Cell cel = row4.createCell(i);
+    		if (i==0){
+    			cel.setCellValue(obj.getYwy());
+    			cel.setCellStyle(getLeftBorder(cellStyle));
+    		} else if (i==3){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==4){
+    			cel.setCellValue(obj.getShy());
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==5){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		} else if (i==6){
+    			cel.setCellValue(obj.getXsdh());
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==9){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==10){
+    			try {
+    				cel.setCellValue(DateUtils.date2Str(new Date()));
+    			} catch (ParseException e) {
+    				e.printStackTrace();
+    				throw new OperException(生成Excel出错);
+    			}
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==11){
+    			cel.setCellValue(list.size());
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		}else if (i==12){
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==13){
+    			cel.setCellValue(cdr);
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		} else if (i==14){
+    			cel.setCellStyle(getRightBorder(cellStyle));
+    		} else {
+    			cel.setCellStyle(getCenterBorder(cellStyle));
+    		}
+    	}
+    }
     
-    //中间打印条形码的部分
+    //填充中间打印条形码的部分
+  	private static void setTable (Sheet sheet,Workbook workBook,List<VOrder> list){
+  		int rowNum = list.size()%5==0?list.size()/5:list.size()/5+1;
+  		for (int i=0;i<rowNum;i++){
+  			Row row = sheet.getRow(i+8);
+  			if (list.size()-5*i>5){
+  				//打印5*i-5*i+5的值
+  				Cell cel1 = row.getCell(1);
+  				cel1.setCellValue(list.get(i*5).getTxm());
+  				Cell cel2 = row.getCell(4);
+  				cel2.setCellValue(list.get(i*5+1).getTxm());
+  				Cell cel3 = row.getCell(7);
+  				cel3.setCellValue(list.get(i*5+2).getTxm());
+  				Cell cel4 = row.getCell(10);
+  				cel4.setCellValue(list.get(i*5+3).getTxm());
+  				Cell cel5 = row.getCell(13);
+  				cel5.setCellValue(list.get(i*5+4).getTxm());
+  			} else {
+  				//打印5*i到list。size（）的值
+  				int num = list.size()-5*i;
+  				if (num>0){
+  					Cell cel1 = row.getCell(1);
+  	  				cel1.setCellValue(list.get(i*5).getTxm());
+  				}
+  				if (num>1){
+  					Cell cel2 = row.getCell(4);
+  	  				cel2.setCellValue(list.get(i*5+1).getTxm());
+  				}
+  				if (num>2){
+  					Cell cel3 = row.getCell(7);
+  	  				cel3.setCellValue(list.get(i*5+2).getTxm());
+  				}
+  				if (num>3){
+  					Cell cel4 = row.getCell(10);
+  	  				cel4.setCellValue(list.get(i*5+3).getTxm());
+  				}
+  				if (num>4){
+  					Cell cel5 = row.getCell(13);
+  	  				cel5.setCellValue(list.get(i*5+4).getTxm());
+  				}
+  			}
+  		}
+  	}
+  	//中间打印条形码的部分
   	private static void createTable (Sheet sheet,Workbook workBook,List<VOrder> list){
   		CellStyle allStyle = getAllBorder(getCenter11Font(workBook));
   		CellStyle rightStyle = getRightBorder(getCenter11Font(workBook));
@@ -437,23 +614,23 @@ public class ExportExcelUtils {
   				int num = list.size()-5*i;
   				if (num>0){
   					Cell cel1 = row.getCell(1);
-  	  				cel1.setCellValue(list.get(i*5).getTxm());
+  					cel1.setCellValue(list.get(i*5).getTxm());
   				}
   				if (num>1){
   					Cell cel2 = row.getCell(4);
-  	  				cel2.setCellValue(list.get(i*5+1).getTxm());
+  					cel2.setCellValue(list.get(i*5+1).getTxm());
   				}
   				if (num>2){
   					Cell cel3 = row.getCell(7);
-  	  				cel3.setCellValue(list.get(i*5+2).getTxm());
+  					cel3.setCellValue(list.get(i*5+2).getTxm());
   				}
   				if (num>3){
   					Cell cel4 = row.getCell(10);
-  	  				cel4.setCellValue(list.get(i*5+3).getTxm());
+  					cel4.setCellValue(list.get(i*5+3).getTxm());
   				}
   				if (num>4){
   					Cell cel5 = row.getCell(13);
-  	  				cel5.setCellValue(list.get(i*5+4).getTxm());
+  					cel5.setCellValue(list.get(i*5+4).getTxm());
   				}
   			}
   		}

@@ -41,4 +41,6 @@ public class AdminProperties {
 	
 	public static final String SERVER_URL = AdminProperties.getValue("server_url");
 	
+	public static final String EXCEL_DIR = AdminProperties.getValue("excel_dir");
+	
 }

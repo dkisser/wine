@@ -1,7 +1,9 @@
 package org.lf.admin.service.order;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +77,15 @@ public class ImportService {
 	 * @throws IOException 
 	 * @throws OperException 
 	 */
-	public String importWine (Orders Orders,MultipartFile file) throws OperException{
+	public String importWine (Orders orders,MultipartFile file) throws OperException{
 		String fileName = file.getOriginalFilename();
 		String suffixName = fileName.split("\\.")[1];
 		if (suffixName.equals("txt")){
-			return importWineByTxt(Orders, file);
+			return importWineByTxt(orders, file);
 		} else if (suffixName.equals("xls")){
-			return importWineByExcel(Orders, file,true);
+			return importWineByExcel(orders, file,true);
 		} else if (suffixName.equals("xlsx")){
-			return importWineByExcel(Orders, file,false);
+			return importWineByExcel(orders, file,false);
 		}else {
 			return null;
 		}
@@ -176,16 +178,11 @@ public class ImportService {
 			e.printStackTrace();
 			throw new OperException(读取Excel文件异常);
 		}
-		//控制该数组大小（条形码长度+2），从而实现一行一行的读.
 		List<Orders> result = new ArrayList<Orders>();
-		byte[] array = new byte[20];
-		int i=-1;
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		String txm = null;
 		try {
-			while ((i=in.read(array))!=-1){
-				String txm = new String(array);
-				if (StringUtils.isEmpty(txm)){
-					continue;
-				}
+			while (!StringUtils.isEmpty(txm=reader.readLine())){
 				Orders newOrders = new Orders();
 				newOrders.setDate(orders.getDate());
 				newOrders.setKdr(orders.getKdr());

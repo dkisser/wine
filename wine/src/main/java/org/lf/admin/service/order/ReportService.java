@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.lf.admin.db.dao.ChuUserMapper;
@@ -57,6 +58,36 @@ public class ReportService {
 		Workbook wb = null;
 		try {
 			wb = ExportExcelUtils.createExcel(Mode.VERSION_H, oList, cdr);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new OperException(生成Excel失败);
+		}
+		if (wb!=null){
+			ExcelFileUtils.exportExcel(wb, response, "湖北白云边酒业产品溯源单.xls");
+			is = true;
+		}
+		return is;
+	}
+	/**
+	 * 导出Excel表(在excel表有模板的情况下)
+	 * @param list
+	 * @return
+	 * @throws OperException 
+	 */
+	public boolean exprotExcel2 (HttpSession session,String xsdh,String cdr,HttpServletResponse response) throws OperException{
+		Boolean is = false;
+		ChuUser record = new ChuUser();
+		record.setUname(cdr);
+		cdr=chuUserDao.select(record).getName();
+		VOrder vorder = new VOrder();
+		vorder.setXsdh(xsdh);
+		List<VOrder> oList = vOrderDao.selectList(vorder);
+		if (oList==null){
+			return false;
+		}
+		Workbook wb = null;
+		try {
+			wb = ExportExcelUtils.exportExcel(session,Mode.VERSION_L, oList, cdr);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new OperException(生成Excel失败);
