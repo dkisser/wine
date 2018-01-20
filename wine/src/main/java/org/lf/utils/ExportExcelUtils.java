@@ -171,7 +171,8 @@ public class ExportExcelUtils {
 					CopySheetUtils.copySheets(sheet, origin,true);
 					insertPic(sheet, workBook, 2, 0);
 				} 
-				
+				//设置打印区域
+				workBook.setPrintArea(i, 0, 14, 0, 38);
 				//填充第二行
 				List<VOrder> oList = null;
 				if (rest-i*100>=0){
